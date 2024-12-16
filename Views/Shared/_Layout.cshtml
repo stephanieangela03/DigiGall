@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DigiGall</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DigiGall.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar d-flex justify-content-between align-items-center p-2">
+        <div class="logo">
+            <img src="~/images/harrypotter.png" alt="Hogwarts Icon" class="hogwarts-icon">
+            <span>DigiGall Quest</span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <button class="menu-icon">☰</button>
+            <input type="text" placeholder="Search" />
+            <i class="fa fa-search"></i>
+        </div>
+
+        <!-- User Info -->
+        <div class="user-info d-flex align-items-center">
+            <span class="me-3">
+                <i class="fa fa-coins"></i> 1200
+            </span>
+            <span class="me-3">Hello, XYZ</span>
+            <div class="user-icon">
+                <span>X</span>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Left Vertical Navigation Bar -->
+    <nav class="vertical-navbar">
+        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <a asp-area="" asp-controller="Shop" asp-action="Hogsmeade">Hogsmeade Shop</a>
+        <a asp-area="" asp-controller="History" asp-action="Index">History</a>
+        <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - DigiGall - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

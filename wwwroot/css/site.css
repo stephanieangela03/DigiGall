@@ -1,0 +1,220 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/* Top Navigation Bar */
+.top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0062A1; /* Dark blue background */
+    color: #ffffff;
+    padding: 15px 25px; /* Increase padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+}
+
+.hogwarts-icon {
+    width: 40px; /* Adjust icon size */
+    height: 40px;
+    margin-right: 10px; /* Space between icon and text */
+}
+
+.navbar-title {
+    font-size: 24px; /* Increase font size */
+    font-weight: bold;
+}
+
+/* User section on the right */
+.right-section {
+    display: flex;
+    align-items: center;
+}
+
+.user-greeting {
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+.user-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%; /* Circular shape */
+    background-color: #ffffff; /* White background */
+    color: #0062A1; /* Blue text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Left vertical navigation bar */
+.vertical-navbar {
+    position: fixed;
+    top: 50px; /* Adjust for top navbar height */
+    left: 0;
+    width: 200px;
+    height: calc(100% - 50px); /* Full height minus top navbar */
+    background-color: #f8f9fa; /* Light gray background */
+    padding-top: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+    .vertical-navbar a {
+        display: block;
+        color: #333;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .vertical-navbar a:hover {
+            background-color: #e9ecef; /* Hover effect */
+            color: #000;
+        }
+
+
+/* Home Page */
+.main-content {
+    margin-top: 70px; /* Adjust for top navbar */
+    margin-left: 220px; /* Adjust for left navbar width */
+    padding: 20px;
+}
+
+.quest-container {
+    margin-top: 20px;
+}
+
+    .quest-container h2 {
+        font-size: 24px;
+        color: #0062A1;
+        margin-bottom: 20px;
+    }
+
+.quest-card {
+    background-color: #0062A1; /* Background biru gelap */
+    color: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* Untuk memungkinkan posisi absolut */
+}
+
+    .quest-card h3 {
+        font-size: 18px;
+        margin: 0 0 10px 0;
+        margin-bottom: 0px;
+    }
+
+    .quest-card p {
+        font-size: 14px;
+        margin: 0 0 10px 0;
+    }
+
+.quest-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 10px;
+    flex-wrap: wrap; /* Agar elemen bisa turun jika ruang tidak cukup */
+}
+
+.quest-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Membagi area menjadi 4 kolom */
+    gap: 15px; /* Memberikan jarak antar gambar */
+    margin-top: 20px; /* Menambahkan jarak dari elemen sebelumnya */
+}
+
+
+
+
+/* Poin (angka & ikon) di pojok kanan atas */
+.quest-points {
+    position: absolute;
+    top: 10px; /* Tepat di tepi atas */
+    right: 5px; /* Tepat di tepi kanan */
+    padding: 0px 10px; /* Beri ruang agar terlihat rapi */
+    border-radius: 0 8px 0 8px; /* Efek lengkung di bagian bawah kiri */
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center; /* Ikon dan angka sejajar */
+}
+
+    .quest-points i {
+        margin-right: 5px; /* Jarak ikon ke angka */
+    }
+
+/* Deadline pindah ke bawah teks utama */
+.quest-info {
+    position: relative; /* Tetap di posisi dalam kontainer */
+    font-size: 12px;
+    font-style: italic;
+    color: #F4CE9B;
+    display: block;
+}
+
+.quest-deadline {
+    position: relative; /* Tetap di posisi dalam kontainer */
+    margin-top: 0px; /* Beri jarak dengan teks atas */
+    font-size: 12px;
+    font-style: italic;
+    color: #F4CE9B;
+    display: block;
+    padding-bottom: 10px;
+}
+
+/* Gaya tambahan untuk gambar */
+.quest-banner img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    height: 250px;
+}
+
+.quest-giver {
+    display: flex; /* Align icon and text horizontally */
+    align-items: center; /* Vertically center the items */
+    font-size: 12px; /* Adjust font size */
+    color: #A0A0A0; /* Grey color similar to the image */
+    margin-top: 2px; /* Add space above the text */
+    margin-bottom: 15px;
+}
+
+    .quest-giver i {
+        font-size: 12px; /* Size of the icon */
+        margin-right: 8px; /* Space between icon and text */
+        color: #A0A0A0; /* Match icon color with text */
+    }
+
