@@ -13,6 +13,8 @@ using DigiGall.Mappers;
 
 namespace DigiGall.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,6 +30,7 @@ namespace DigiGall.Controllers
 
         }
         [HttpPost]
+        //[HttpPost("login")]
         public async Task<IActionResult> Login(string email, string password)
         {
             var hashedPassword = HashPassword(password);
@@ -40,10 +43,10 @@ namespace DigiGall.Controllers
             }
 
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.Email),
-        new Claim(ClaimTypes.Role, user.Role)
-    };
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -64,6 +67,7 @@ namespace DigiGall.Controllers
         }
 
         [HttpPost]
+        //[HttpPost("register")]
         public IActionResult Register(User user)
         {
             if (_context.Users.Any(u => u.Email == user.Email))
@@ -89,6 +93,7 @@ namespace DigiGall.Controllers
             return RedirectToAction("Login");
         }
         
+        [HttpGet("user")]
         public IActionResult GetUser(string email)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
@@ -101,6 +106,7 @@ namespace DigiGall.Controllers
             return Ok(userDto);
         }
 
+        [HttpPost("logout")]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear(); 
