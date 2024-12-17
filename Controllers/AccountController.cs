@@ -77,14 +77,11 @@ namespace DigiGall.Controllers
             }
 */
 
-<<<<<<< HEAD
             user.Password = HashPassword(user.Password);
             user.Role = "User"; 
-=======
 /*
             var user = createUserDto.ToUserFromCreateDto();  // Convert CreateUserDto to User
             user.Password = HashPassword(createUserDto.Password);  // Hash the password before saving
->>>>>>> origin/ed
 */
             _context.Users.Add(user);
             _context.SaveChanges();

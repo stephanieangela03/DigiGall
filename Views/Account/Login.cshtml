@@ -1,4 +1,4 @@
-@model DigiGall.Models.User
+
 
 @{
     ViewData["Title"] = "Login";
@@ -40,13 +40,13 @@
                     <form method="post" action="/Account/Login">
                         <div class="mb-3">
                             <input type="email" class="form-control" name="email" id="email" required
-                                value="@Model.Email" 
+                                
                                 placeholder="Enter your email"
                             />
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" name="password" id="password" required 
-                                value="@Model.Password"
+                                
                                 placeholder="Enter your password"
                             />
                         </div>
