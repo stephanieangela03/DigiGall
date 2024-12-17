@@ -1,0 +1,51 @@
+﻿@model DigiGall.Models.Quest
+
+@{
+    ViewData["Title"] = "Delete Quest";
+}
+
+<h1>Delete Quest</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Quest</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NamaQuest)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NamaQuest)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Kriteria)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Kriteria)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Deskripsi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Deskripsi)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reward)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reward)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Deadline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Deadline)
+        </dd>
+    </dl>
+    
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" name="id" value="@Model.NamaQuest" />  
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

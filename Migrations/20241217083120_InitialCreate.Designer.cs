@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DigiGall.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241217120307_init")]
-    partial class init
+    [Migration("20241217083120_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,197 @@ namespace DigiGall.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DigiGall.Models.Item", b =>
+                {
+                    b.Property<int>("NamaItem")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NamaItem"));
+
+                    b.Property<string>("Deskripsi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Harga")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Stok")
+                        .HasColumnType("int");
+
+                    b.Property<string>("URLGambar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NamaItem");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("DigiGall.Models.PemberianQuest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NamaQuest")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TanggalSelesai")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email");
+
+                    b.HasIndex("NamaQuest");
+
+                    b.ToTable("PemberianQuests");
+                });
+
+            modelBuilder.Entity("DigiGall.Models.Quest", b =>
+                {
+                    b.Property<string>("NamaQuest")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Deskripsi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Kriteria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NamaQuest");
+
+                    b.ToTable("Quests");
+                });
+
+            modelBuilder.Entity("DigiGall.Models.RiwayatTransaksi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NamaPenerima")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NamaPengirim")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NamaTransaksi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TanggalTransaksi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TipeTransaksi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalHarga")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email");
+
+                    b.ToTable("RiwayatTransaksis");
+                });
+
+            modelBuilder.Entity("DigiGall.Models.Transaksi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AlamatPengiriman")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("JumlahPembelian")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NamaItem")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TanggalTransaksi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalHarga")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email");
+
+                    b.HasIndex("NamaItem");
+
+                    b.ToTable("Transaksis");
+                });
+
+            modelBuilder.Entity("DigiGall.Models.User", b =>
+                {
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Asrama")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NamaLengkap")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SaldoDigigall")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -227,210 +418,53 @@ namespace DigiGall.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PemberianQuestUser", b =>
+            modelBuilder.Entity("DigiGall.Models.PemberianQuest", b =>
                 {
-                    b.Property<int>("PemberianQuestsId")
-                        .HasColumnType("int");
+                    b.HasOne("DigiGall.Models.User", "User")
+                        .WithMany("PemberianQuests")
+                        .HasForeignKey("Email")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("UsersEmail")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasOne("DigiGall.Models.Quest", "Quest")
+                        .WithMany("PemberianQuests")
+                        .HasForeignKey("NamaQuest")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("PemberianQuestsId", "UsersEmail");
+                    b.Navigation("Quest");
 
-                    b.HasIndex("UsersEmail");
-
-                    b.ToTable("PemberianQuestUser");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Models.Item", b =>
+            modelBuilder.Entity("DigiGall.Models.RiwayatTransaksi", b =>
                 {
-                    b.Property<string>("NamaItem")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasOne("DigiGall.Models.User", "User")
+                        .WithMany("RiwayatTransaksis")
+                        .HasForeignKey("Email")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Deskripsi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Harga")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<int>("Stok")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UrlGambar")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("NamaItem");
-
-                    b.ToTable("Items");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Models.PemberianQuest", b =>
+            modelBuilder.Entity("DigiGall.Models.Transaksi", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("DigiGall.Models.User", "User")
+                        .WithMany("Transaksis")
+                        .HasForeignKey("Email")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasOne("DigiGall.Models.Item", "Item")
+                        .WithMany("Transaksis")
+                        .HasForeignKey("NamaItem")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Navigation("Item");
 
-                    b.Property<string>("NamaQuest")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TanggalSelesai")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NamaQuest");
-
-                    b.ToTable("PemberianQuests");
-                });
-
-            modelBuilder.Entity("api.Models.Quest", b =>
-                {
-                    b.Property<string>("NamaQuest")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Criteria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Deskripsi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Reward")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("NamaQuest");
-
-                    b.ToTable("Quests");
-                });
-
-            modelBuilder.Entity("api.Models.RiwayatTransaksi", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Mantra")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NamaPenerima")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NamaPengirim")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NamaTransaksi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TanggalTransaksi")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TipeTransaksi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalHarga")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email");
-
-                    b.HasIndex("TanggalTransaksi");
-
-                    b.HasIndex("UserEmail");
-
-                    b.ToTable("RiwayatTransaksis");
-                });
-
-            modelBuilder.Entity("api.Models.Transaksi", b =>
-                {
-                    b.Property<DateTime>("TanggalTransaksi")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("AlamatPengiriman")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("JumlahPembelian")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NamaItem")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("TotalHarga")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("TanggalTransaksi");
-
-                    b.HasIndex("Email");
-
-                    b.HasIndex("NamaItem");
-
-                    b.ToTable("Transaksis");
-                });
-
-            modelBuilder.Entity("api.Models.User", b =>
-                {
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Asrama")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NamaLengkap")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("SaldoDigigall")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("Email");
-
-                    b.ToTable("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -484,86 +518,20 @@ namespace DigiGall.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PemberianQuestUser", b =>
-                {
-                    b.HasOne("api.Models.PemberianQuest", null)
-                        .WithMany()
-                        .HasForeignKey("PemberianQuestsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersEmail")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("api.Models.PemberianQuest", b =>
-                {
-                    b.HasOne("api.Models.Quest", "Quest")
-                        .WithMany("PemberianQuests")
-                        .HasForeignKey("NamaQuest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quest");
-                });
-
-            modelBuilder.Entity("api.Models.RiwayatTransaksi", b =>
-                {
-                    b.HasOne("api.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("Email")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.Transaksi", "Transaksi")
-                        .WithMany()
-                        .HasForeignKey("TanggalTransaksi")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.User", null)
-                        .WithMany("RiwayatTransaksis")
-                        .HasForeignKey("UserEmail");
-
-                    b.Navigation("Transaksi");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("api.Models.Transaksi", b =>
-                {
-                    b.HasOne("api.Models.User", "User")
-                        .WithMany("Transaksis")
-                        .HasForeignKey("Email")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.Item", "Item")
-                        .WithMany("Transaksis")
-                        .HasForeignKey("NamaItem")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("api.Models.Item", b =>
+            modelBuilder.Entity("DigiGall.Models.Item", b =>
                 {
                     b.Navigation("Transaksis");
                 });
 
-            modelBuilder.Entity("api.Models.Quest", b =>
+            modelBuilder.Entity("DigiGall.Models.Quest", b =>
                 {
                     b.Navigation("PemberianQuests");
                 });
 
-            modelBuilder.Entity("api.Models.User", b =>
+            modelBuilder.Entity("DigiGall.Models.User", b =>
                 {
+                    b.Navigation("PemberianQuests");
+
                     b.Navigation("RiwayatTransaksis");
 
                     b.Navigation("Transaksis");

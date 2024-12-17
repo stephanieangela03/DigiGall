@@ -1,28 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace api.Models
+namespace DigiGall.Models
 {
     public class User
     {
         [Key]
-        public string Email { get; set; } = string.Empty;
+        public string Email { get; set; }
 
-        public string NamaLengkap { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string Asrama { get; set; } = string.Empty;
-        [Column(TypeName = "decimal(18, 2)")]
+        public string NamaLengkap { get; set; }
+        public string Password { get; set; }
+        public string Asrama { get; set; }
         public decimal SaldoDigigall { get; set; }
+        public string Role { get; set; }    
 
-        public List<PemberianQuest>? PemberianQuests { get; set; }
-        public List<Transaksi>? Transaksis { get; set; }
-        public List<RiwayatTransaksi>? RiwayatTransaksis { get; set; }
-
-        
-
+        public ICollection<RiwayatTransaksi> RiwayatTransaksis { get; set; }
+        public ICollection<Transaksi> Transaksis { get; set; }
+        public ICollection<PemberianQuest> PemberianQuests { get; set; }
     }
+
 }

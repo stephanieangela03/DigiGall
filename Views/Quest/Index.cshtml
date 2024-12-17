@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<DigiGall.Models.Quest>
+
+@{
+    ViewData["Title"] = "Quest List";
+}
+
+<h2>Quest List</h2>
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create">Create New</a>
+    }
+    
+</p>
+<p>
+    <p>
+        Username : @User.Identity.Name
+    </p>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Criteria</th>
+        <th>Description</th>
+        <th>Reward</th>
+        <th>Deadline</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.NamaQuest)</td>
+            <td>@Html.DisplayFor(modelItem => item.Kriteria)</td>
+            <td>@Html.DisplayFor(modelItem => item.Deskripsi)</td>
+            <td>@Html.DisplayFor(modelItem => item.Reward)</td>
+            <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.NamaQuest">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.NamaQuest">Delete</a>
+                }
+                else
+                {
+                    <a asp-action="TakeQuest" asp-route-id="@item.NamaQuest">Take</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
