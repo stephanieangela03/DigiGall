@@ -23,6 +23,7 @@ namespace DigiGall.Controllers
         {
             _context = context;
         }
+        [HttpGet("login")]
 
         public IActionResult Login()
         {
@@ -58,7 +59,7 @@ namespace DigiGall.Controllers
 
             return RedirectToAction("Index", "Quest");
         }
-
+        [HttpGet("register")]
         public IActionResult Register()
         {
             ViewData["Title"] = "Register";
