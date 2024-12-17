@@ -8,6 +8,8 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DigiGall.Dtos.User;
+using DigiGall.Mappers;
 
 namespace DigiGall.Controllers
 {
@@ -62,20 +64,32 @@ namespace DigiGall.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public IActionResult Register(CreateUserDto createUserDto)
         {
-            if (_context.Users.Any(u => u.Email == user.Email))
+            if (_context.Users.Any(u => u.Email == createUserDto.Email))
             {
                 ViewBag.ErrorMessage = "Email already exists.";
                 return View();
             }
 
-            user.Password = HashPassword(user.Password);
-            user.Role = "User"; 
+            var user = createUserDto.ToUserFromCreateDto();  // Convert CreateUserDto to User
+            user.Password = HashPassword(createUserDto.Password);  // Hash the password before saving
             _context.Users.Add(user);
             _context.SaveChanges();
 
             return RedirectToAction("Login");
+        }
+        
+        public IActionResult GetUser(string email)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userDto = user.ToUserDto();  // Convert User to UserDto
+            return Ok(userDto);
         }
 
         public IActionResult Logout()
