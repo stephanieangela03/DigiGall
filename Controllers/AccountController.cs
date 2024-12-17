@@ -13,7 +13,7 @@ using DigiGall.Mappers;
 
 namespace DigiGall.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Account")]
     [ApiController]
     public class AccountController : Controller
     {
