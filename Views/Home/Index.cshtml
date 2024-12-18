@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<DigiGall.Models.Quest>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,58 +10,20 @@
 
 <h2>Quest Available</h2>
 <div class="quest-container">
-    <div class="quest-card">
-        <h3>Needed Potion</h3>
-        <div class="quest-points">
-            <i class="fa-solid fa-coins"></i> 150
+    @foreach (var quest in Model)  // Loop untuk menampilkan setiap quest
+    {
+        <div class="quest-card">
+            <h3>@quest.NamaQuest</h3>  <!-- Menampilkan NamaQuest -->
+            <div class="quest-points">
+                <i class="fa-solid fa-coins"></i> @quest.Reward <!-- Menampilkan Reward -->
+            </div>
+            @* <div class="quest-giver">
+                <i class="fa-solid fa-user"></i> @quest.QuestGiver <!-- Menampilkan QuestGiver -->
+            </div> *@
+            <p>@quest.Deskripsi</p>  <!-- Menampilkan Deskripsi quest -->
+            <div class="quest-info">
+                <span class="quest-deadline">Deadline: @quest.Deadline.ToString("dd/MM/yyyy")</span> <!-- Menampilkan Deadline -->
+            </div>
         </div>
-        <div class="quest-giver">
-            <i class="fa-solid fa-user"></i> Professor Sharp
-        </div>
-        <p>Acquire Maxima and Edurus Potions. Bring it on Class</p>
-        <div class="quest-info">
-            <span class="quest-deadline">Deadline: 10/12/2025</span>
-        </div>
-    </div>
-    <div class="quest-card">
-        <h3>Collect Flying Pages</h3>
-        <div class="quest-points">
-            <i class="fa-solid fa-coins"></i> 50
-        </div>
-        <div class="quest-giver">
-            <i class="fa-solid fa-user"></i> Professor Ronald
-        </div>
-        <p>Collect the flying page in the Defence Against the Dark Arts Tower. Bring it to my Office</p>
-        <div class="quest-info">
-            <span class="quest-deadline">Deadline: 10/11/2025</span>
-        </div>
-    </div>
-    <div class="quest-card">
-        <h3>Spell Combination Practice</h3>
-        <div class="quest-points">
-            <i class="fa-solid fa-coins"></i> 150
-        </div>
-        <div class="quest-giver">
-            <i class="fa-solid fa-user"></i> Lucan Brattleby
-        </div>
-        <p>Practice in using Accio and Leviosa together. Show how you done to me</p>
-        <div class="quest-info">
-            <span class="quest-deadline">Deadline: 10/11/2025</span>
-        </div>
-    </div>
-    <div class="quest-card">
-        <h3>Looking for Sweets</h3>
-        <div class="quest-points">
-            <i class="fa-solid fa-coins"></i> 50
-        </div>
-        <div class="quest-giver">
-            <i class="fa-solid fa-user"></i> Garreth Weasley
-        </div>
-        <p>Help me obtaining Billywig Stings for my next potion.</p>
-        <div class="quest-info">
-            
-            <span class="quest-deadline">Deadline: 15/01/2025</span>
-        </div>
-    </div>
+    }
 </div>
-
