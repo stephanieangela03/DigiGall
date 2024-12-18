@@ -5,7 +5,6 @@
     Layout = null;
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,7 @@
                 <img src="/images/harrypotter.png" alt="Logo DigiGall" class="logo">
             </div>
 
-            <!-- Kolom Kanan: Form Login -->
+            <!-- Kolom Kanan: Form Register -->
             <div class="col-md-6 d-flex flex-column justify-content-center">
                 <div class="welcome-container">
                     <div class="welcome-box">
@@ -39,32 +38,33 @@
                 <div class="form-container">
                     <form method="post" action="/Account/Register">
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="name" id="name" required
+                            <input type="text" class="form-control" name="NamaLengkap" id="NamaLengkap" required
                                 value="@Model.NamaLengkap" 
-                                placeholder="Enter your Name"
-                            />
+                                placeholder="Enter your Name" />
                         </div>
                         <div class="mb-3">
                             <input type="email" class="form-control" name="email" id="email" required 
                                 value="@Model.Email"
-                                placeholder="Enter your email"
-                            />
+                                placeholder="Enter your email" />
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" name="password" id="password" required
                                 value="@Model.Password" 
-                                placeholder="Enter your Password"
-                            />
+                                placeholder="Enter your Password" />
                         </div>
+
                         <div class="mb-3">
-                            <input type="dropdown" class="form-control" name="clan" id="clan" required 
-                                value="@Model.Asrama"
-                                placeholder="Choose Clan"
-                            />
+<select class="form-control" name="Asrama" id="Asrama" required>
+  <option value="">Choose Clan</option>
+  <option value="Gryffindor" selected="@(Model.Asrama == "Gryffindor")">Gryffindor</option>
+  <option value="Hufflepuff" selected="@(Model.Asrama == "Hufflepuff")">Hufflepuff</option>
+  <option value="Ravenclaw" selected="@(Model.Asrama == "Ravenclaw")">Ravenclaw</option>
+  </select>
                         </div>
+
                         <div class="mb-3">
                             <input type="checkbox" id="checkbox" name="chekbox" value="Yes">
-                            <label for="checbox"> I Agree to the Terms and Conditions</label><br>
+                            <label for="checkbox"> I Agree to the Terms and Conditions</label><br>
                         </div>
 
                         @if (ViewBag.ErrorMessage != null)
