@@ -37,6 +37,11 @@ body {
     justify-content: space-between;
 }
 
+.logo span {
+    font-size: 24px; /* Increase font size */
+    font-weight: bold;
+}
+
 .navbar-content {
     display: flex;
     align-items: center;
@@ -218,3 +223,192 @@ body {
         color: #A0A0A0; /* Match icon color with text */
     }
 
+/* Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+    .search-box:focus {
+        border-color: #666;
+    }
+
+/* Card Container */
+.card-container {
+    display: flex;
+    flex-direction: column; /* Tetap vertikal untuk container utama */
+    gap: 15px;
+}
+
+.card {
+    display: flex; /* Mengatur elemen menjadi flexbox */
+    flex-direction: row; /* Pastikan elemen berjajar horizontal */
+    align-items: center; /* Pusatkan vertikal */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    gap: 20px; /* Jarak antar elemen */
+    position: relative;
+}
+
+.card-img {
+    width: 150px; /* Ukuran gambar */
+    height: 150px;
+    object-fit: cover; /* Gambar proporsional */
+    border-radius: 8px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column; /* Konten teks vertikal */
+    justify-content: center; /* Tengah secara vertikal */
+    gap: 10px; /* Jarak antar teks */
+    flex: 1; /* Isi ruang kosong di sebelah gambar */
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-price {
+    font-size: 16px;
+    color: #555;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.5; /* Menambahkan jarak antar baris teks untuk kenyamanan membaca */
+}
+
+.card-stock {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+
+/*History*/
+/* Search Container */
+.search-container-h {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-bar-h {
+    width: 100%;
+    padding: 12px 40px 12px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-icon-h {
+    position: absolute;
+    right: 15px;
+    color: #888;
+}
+
+/* Transaction Container */
+.transaction-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Transaction Card */
+.transaction-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #F3F3F3;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.transaction-info h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.amount {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+    .amount i {
+        color: #d4af37; /* Gold color for coins icon */
+        margin-right: 5px;
+    }
+
+.expenditure {
+    color: #C2572D; /* Red color for expenditure */
+    font-weight: bold;
+}
+
+.income {
+    color: #006736; /* Green color for income */
+    font-weight: bold;
+}
+
+.status {
+    color: #9A9999;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.transaction-date {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Button - Fix to Bottom Right */
+.transaction-button {
+    position: absolute;
+    bottom: 10px; /* Lebih dekat ke bawah */
+    right: 10px; /* Lebih dekat ke kanan */
+    margin: 0; /* Hilangkan margin ekstra */
+}
+
+    .transaction-button button {
+        background-color: #0056b3;
+        color: #fff;
+        border: none;
+        padding: 8px 50px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .transaction-button button:hover {
+            background-color: #003d82;
+        }

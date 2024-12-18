@@ -1,0 +1,52 @@
+﻿@model DigiGall.Models.RiwayatTransaksi
+
+@{
+    ViewData["Title"] = "RiwayatTransaksi";
+}
+
+<div class="search-container-h">
+    <input type="text" class="search-bar-h" placeholder="Search Transaction">
+    <i class="fas fa-search search-icon-h"></i>
+</div>
+
+<!-- Transaction Cards -->
+<div class="transaction-container">
+    <!-- First Transaction Card -->
+    <div class="transaction-card">
+        <div class="transaction-info">
+            <h3>Broom Stick Alpha Edition</h3>
+            <div class="amount">
+                <i class="fas fa-coins"></i>
+                1000
+            </div>
+            <p class="expenditure">Expenditure</p>
+            <p class="status">Success</p>
+        </div>
+        <div class="transaction-date">
+            Monday, 6 January 2025
+        </div>
+        <div class="transaction-button">
+            <button>View Details</button>
+        </div>
+    </div>
+
+    <!-- Second Transaction Card -->
+    <div class="transaction-card">
+        <div class="transaction-info">
+            <h3>Collects Magical Goose</h3>
+            <div class="amount">
+                <i class="fas fa-coins"></i>
+                250
+            </div>
+            <p class="income">Income</p>
+            <p class="status">Success</p>
+        </div>
+        <div class="transaction-date">
+            Friday, 3 January 2025
+        </div>
+        <div class="transaction-button">
+            <button>View Details</button>
+        </div>
+    </div>
+</div>
+
