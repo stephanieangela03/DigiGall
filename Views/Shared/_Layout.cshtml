@@ -26,15 +26,17 @@
         </div>
 
         <!-- User Info -->
-        <div class="user-info d-flex align-items-center">
+       <div class="user-info d-flex align-items-center">
             <span class="me-3">
-                <i class="fa fa-coins"></i> 1200
+                <i class="fa fa-coins"></i> @Context.Session.GetString("UserSaldo")
             </span>
-            <span class="me-3">Hello, XYZ</span>
+            <span class="me-3">, Halo @Context.Session.GetString("UserName") </span>
             <div class="user-icon">
                 <span>X</span>
             </div>
         </div>
+
+
     </header>
 
 
