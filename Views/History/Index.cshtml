@@ -5,9 +5,11 @@
     ViewData["Title"] = "History Dashboard";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
-<div>
-    <a asp-action="Transaction" asp-controller="History">Transaction History</a>
-    <a asp-action="Quest" asp-controller="History">Quest History</a>
+    <div class="d-flex justify-content-center gap-4">
+        <a asp-action="Transaction" asp-controller="History" class="btn btn-primary btn-lg shadow">Transaction History</a>
+        <a asp-action="Quest" asp-controller="History" class="btn btn-success btn-lg shadow">Quest History</a>
+    </div>
 </div>

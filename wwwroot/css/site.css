@@ -4,15 +4,15 @@ html {
 
 @media (max-width: 768px) {
     .vertical-navbar {
-        width: 100%; /* Sidebar memenuhi lebar layar */
-        height: auto; /* Tinggi sidebar disesuaikan */
-        position: relative; /* Sidebar tidak fixed di layar kecil */
+        width: 100%; 
+        height: auto; 
+        position: relative; 
     }
 
     .main-content {
-        margin-left: 0; /* Hapus margin kiri */
-        max-width: 100%; /* Konten memenuhi lebar layar */
-        padding: 10px; /* Padding lebih kecil untuk layar kecil */
+        margin-left: 0; 
+        max-width: 100%; 
+        padding: 10px; 
     }
 }
 
@@ -25,9 +25,11 @@ html {
     min-height: 100%;
 }
 
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 body {
     margin-bottom: 60px;
-    font-family: poppins;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Top Navigation Bar */
@@ -36,9 +38,9 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #0062A1; /* Dark blue background */
+    background-color: #0062A1; 
     color: #ffffff;
-    padding: 15px 25px; /* Increase padding */
+    padding: 15px 25px; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: flex;
@@ -47,7 +49,7 @@ body {
 }
 
 .logo span {
-    font-size: 24px; /* Increase font size */
+    font-size: 24px; 
     font-weight: bold;
 }
 
@@ -57,13 +59,13 @@ body {
 }
 
 .hogwarts-icon {
-    width: 40px; /* Adjust icon size */
+    width: 40px; 
     height: 40px;
-    margin-right: 10px; /* Space between icon and text */
+    margin-right: 10px; 
 }
 
 .navbar-title {
-    font-size: 24px; /* Increase font size */
+    font-size: 24px; 
     font-weight: bold;
 }
 
@@ -81,9 +83,9 @@ body {
 .user-icon {
     width: 35px;
     height: 35px;
-    border-radius: 50%; /* Circular shape */
-    background-color: #ffffff; /* White background */
-    color: #0062A1; /* Blue text */
+    border-radius: 50%; 
+    background-color: #ffffff; 
+    color: #0062A1; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -94,11 +96,11 @@ body {
 /* Left vertical navigation bar */
 .vertical-navbar {
     position: fixed;
-    top: 50px; /* Adjust for top navbar height */
+    top: 50px;
     left: 0;
     width: 200px;
-    height: calc(100% - 50px); /* Full height minus top navbar */
-    background-color: #f8f9fa; /* Light gray background */
+    height: calc(100% - 50px); 
+    background-color: #f8f9fa; 
     padding-top: 10px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -112,21 +114,21 @@ body {
     }
 
         .vertical-navbar a:hover {
-            background-color: #e9ecef; /* Hover effect */
+            background-color: #e9ecef; 
             color: #000;
         }
 
 
 /* Home Page */
 .main-content {
-    margin-top: 70px; /* Jarak dari top navbar */
-    margin-left: 220px; /* Jarak dari left navbar */
-    padding: 20px; /* Padding di dalam konten */
-    max-width: calc(100% - 240px); /* Batas maksimum lebar konten */
-    width: 100%; /* Konten mengisi seluruh lebar yang tersedia */
-    box-sizing: border-box; /* Padding termasuk dalam lebar elemen */
-    margin-right: auto; /* Pastikan konten tetap berada di tengah */
-    margin-bottom: 20px; /* Jarak dari bawah halaman */
+    margin-top: 70px; 
+    margin-left: 220px; 
+    padding: 20px; 
+    max-width: calc(100% - 240px); 
+    width: 100%; 
+    box-sizing: border-box;
+    margin-right: auto; 
+    margin-bottom: 20px; 
 }
 
 
@@ -144,13 +146,13 @@ body {
     }
 
 .quest-card {
-    background-color: #0062A1; /* Background biru gelap */
+    background-color: #0062A1; 
     color: white;
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: relative; /* Untuk memungkinkan posisi absolut */
+    position: relative; 
 }
 
     .quest-card h3 {
@@ -169,39 +171,36 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 10px;
-    flex-wrap: wrap; /* Agar elemen bisa turun jika ruang tidak cukup */
+    flex-wrap: wrap; 
 }
 
 .quest-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Membagi area menjadi 4 kolom */
-    gap: 15px; /* Memberikan jarak antar gambar */
-    margin-top: 20px; /* Menambahkan jarak dari elemen sebelumnya */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px; 
+    margin-top: 20px; 
 }
-
-
-
 
 /* Poin (angka & ikon) di pojok kanan atas */
 .quest-points {
     position: absolute;
-    top: 10px; /* Tepat di tepi atas */
-    right: 5px; /* Tepat di tepi kanan */
-    padding: 0px 10px; /* Beri ruang agar terlihat rapi */
-    border-radius: 0 8px 0 8px; /* Efek lengkung di bagian bawah kiri */
+    top: 10px; 
+    right: 5px; 
+    padding: 0px 10px; 
+    border-radius: 0 8px 0 8px; 
     font-size: 14px;
     font-weight: bold;
     display: flex;
-    align-items: center; /* Ikon dan angka sejajar */
+    align-items: center; 
 }
 
     .quest-points i {
-        margin-right: 5px; /* Jarak ikon ke angka */
+        margin-right: 5px; 
     }
 
-/* Deadline pindah ke bawah teks utama */
+
 .quest-info {
-    position: relative; /* Tetap di posisi dalam kontainer */
+    position: relative; 
     font-size: 12px;
     font-style: italic;
     color: #F4CE9B;
@@ -209,8 +208,8 @@ body {
 }
 
 .quest-deadline {
-    position: relative; /* Tetap di posisi dalam kontainer */
-    margin-top: 0px; /* Beri jarak dengan teks atas */
+    position: relative; 
+    margin-top: 0px; 
     font-size: 12px;
     font-style: italic;
     color: #F4CE9B;
@@ -218,7 +217,7 @@ body {
     padding-bottom: 10px;
 }
 
-/* Gaya tambahan untuk gambar */
+
 .quest-banner img {
     width: 100%;
     border-radius: 8px;
@@ -227,18 +226,18 @@ body {
 }
 
 .quest-giver {
-    display: flex; /* Align icon and text horizontally */
-    align-items: center; /* Vertically center the items */
-    font-size: 12px; /* Adjust font size */
-    color: #A0A0A0; /* Grey color similar to the image */
-    margin-top: 2px; /* Add space above the text */
+    display: flex; 
+    align-items: center; 
+    font-size: 12px;
+    color: #A0A0A0; 
+    margin-top: 2px; 
     margin-bottom: 15px;
 }
 
     .quest-giver i {
-        font-size: 12px; /* Size of the icon */
-        margin-right: 8px; /* Space between icon and text */
-        color: #A0A0A0; /* Match icon color with text */
+        font-size: 12px; 
+        margin-right: 8px; 
+        color: #A0A0A0; 
     }
 
 /* Search Bar */
@@ -265,35 +264,35 @@ body {
 /* Card Container */
 .card-container {
     display: flex;
-    flex-direction: column; /* Tetap vertikal untuk container utama */
+    flex-direction: column; 
     gap: 15px;
 }
 
 .card {
-    display: flex; /* Mengatur elemen menjadi flexbox */
-    flex-direction: row; /* Pastikan elemen berjajar horizontal */
-    align-items: center; /* Pusatkan vertikal */
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    gap: 20px; /* Jarak antar elemen */
+    gap: 20px; 
     position: relative;
 }
 
 .card-img {
-    width: 150px; /* Ukuran gambar */
+    width: 150px;
     height: 150px;
-    object-fit: cover; /* Gambar proporsional */
+    object-fit: cover;
     border-radius: 8px;
 }
 
 .card-content {
     display: flex;
-    flex-direction: column; /* Konten teks vertikal */
-    justify-content: center; /* Tengah secara vertikal */
-    gap: 10px; /* Jarak antar teks */
-    flex: 1; /* Isi ruang kosong di sebelah gambar */
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    flex: 1; 
 }
 
 .card-title {
@@ -310,7 +309,7 @@ body {
 .card-desc {
     font-size: 14px;
     color: #777;
-    line-height: 1.5; /* Menambahkan jarak antar baris teks untuk kenyamanan membaca */
+    line-height: 1.5; 
 }
 
 .card-stock {
@@ -381,17 +380,17 @@ body {
 }
 
     .amount i {
-        color: #d4af37; /* Gold color for coins icon */
+        color: #d4af37;
         margin-right: 5px;
     }
 
 .expenditure {
-    color: #C2572D; /* Red color for expenditure */
+    color: #C2572D;
     font-weight: bold;
 }
 
 .income {
-    color: #006736; /* Green color for income */
+    color: #006736; 
     font-weight: bold;
 }
 
@@ -409,12 +408,12 @@ body {
     color: #666;
 }
 
-/* Button - Fix to Bottom Right */
+
 .transaction-button {
     position: absolute;
-    bottom: 10px; /* Lebih dekat ke bawah */
-    right: 10px; /* Lebih dekat ke kanan */
-    margin: 0; /* Hilangkan margin ekstra */
+    bottom: 10px; 
+    right: 10px; 
+    margin: 0; 
 }
 
     .transaction-button button {
