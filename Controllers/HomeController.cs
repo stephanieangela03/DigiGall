@@ -17,7 +17,7 @@ namespace DigiGall.Controllers
             _context = context;
         }
 
-            public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             // Pastikan context tidak null
             if (_context == null)
@@ -26,14 +26,25 @@ namespace DigiGall.Controllers
                 return View("Error");  // Menampilkan halaman error jika DbContext null
             }
 
-            // Cek apakah tabel Quests kosong
-            var quest = await _context.Quests.ToListAsync();
-            if (quest == null || !quest.Any())
+            // Cek apakah tabel PemberianQuests kosong
+            var pemberianQuests = await _context.PemberianQuests
+                .Include(pq => pq.Quest) // Join ke tabel Quest
+                .Include(pq => pq.User) // Join ke tabel User
+                .Select(pq => new PemberianQuestViewModel
+                {
+                    NamaPembuat = pq.User.NamaLengkap, // Nama dari pembuat quest
+                    NamaQuest = pq.Quest.NamaQuest, // Nama dari quest
+                    Reward = pq.Quest.Reward.ToString(), // Reward dari quest
+                    Deadline = pq.Quest.Deadline // Deadline quest
+                })
+                .ToListAsync();
+
+            if (pemberianQuests == null || !pemberianQuests.Any())
             {
-                _logger.LogWarning("Tabel Quests tidak memiliki data.");
+                _logger.LogWarning("Tabel PemberianQuests tidak memiliki data.");
             }
 
-            return View(quest);  // Mengirimkan data quest ke tampilan
+            return View(pemberianQuests);  // Mengirimkan data ViewModel ke tampilan
         }
 
 

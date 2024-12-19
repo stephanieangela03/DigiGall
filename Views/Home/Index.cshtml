@@ -1,4 +1,4 @@
-﻿@model List<DigiGall.Models.Quest>
+﻿@model List<DigiGall.Models.PemberianQuestViewModel> //<!-- Perbaikan model dari Quest ke PemberianQuestViewModel -->
 
 @{
     ViewData["Title"] = "Home Page";
@@ -17,10 +17,9 @@
             <div class="quest-points">
                 <i class="fa-solid fa-coins"></i> @quest.Reward <!-- Menampilkan Reward -->
             </div>
-            @* <div class="quest-giver">
-                <i class="fa-solid fa-user"></i> @quest.QuestGiver <!-- Menampilkan QuestGiver -->
-            </div> *@
-            <p>@quest.Deskripsi</p>  <!-- Menampilkan Deskripsi quest -->
+            <div class="quest-giver">
+                <i class="fa-solid fa-user"></i> @quest.NamaPembuat <!-- Menampilkan NamaPembuat -->
+            </div>
             <div class="quest-info">
                 <span class="quest-deadline">Deadline: @quest.Deadline.ToString("dd/MM/yyyy")</span> <!-- Menampilkan Deadline -->
             </div>
