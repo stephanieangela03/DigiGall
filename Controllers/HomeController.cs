@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace DigiGall.Controllers
 {
@@ -12,7 +13,7 @@ namespace DigiGall.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger , ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -26,8 +27,15 @@ namespace DigiGall.Controllers
                 return View("Error");
             }
 
+            // Pindahkan deklarasi user ke atas
             var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
             if (user == null) return NotFound();
+
+            // Periksa peran user setelah variabel user dideklarasikan
+            if (user.Role == "Admin")
+            {
+                return RedirectToAction("Index", "Quest");
+            }
 
             var quests = await _context.Quests.ToListAsync();
 
@@ -47,6 +55,7 @@ namespace DigiGall.Controllers
             return View(questStatusList);
         }
 
+
         public async Task<IActionResult> Quest(Guid id)
         {
             if (id == Guid.Empty)
@@ -60,7 +69,6 @@ namespace DigiGall.Controllers
             }
             return RedirectToAction("Detail", "Quest", new { id });
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

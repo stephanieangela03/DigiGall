@@ -3,6 +3,7 @@ using DigiGall.Data;
 using DigiGall.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 using System.Text;
 using System.Security.Claims;
@@ -77,7 +78,10 @@ namespace DigiGall.Controllers
             HttpContext.Session.SetString("UserName", user.NamaLengkap);
             HttpContext.Session.SetString("UserSaldo", user.SaldoDigigall.ToString());
 
-
+            if (user.Role == "User")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return RedirectToAction("Index", "Quest");
         }
 
