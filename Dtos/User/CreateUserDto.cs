@@ -7,9 +7,9 @@ namespace DigiGall.Dtos.User
 {
     public class CreateUserDto
     {
-        public string NamaLengkap { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Asrama { get; set; }
+        public string NamaLengkap { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Asrama { get; set; } = string.Empty;
     }
 }

@@ -7,14 +7,12 @@ namespace DigiGall.Dtos.User
 {
     public class UserDto
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string NamaLengkap { get; set; }
-        public string Asrama { get; set; }
-        public decimal SaldoDigigall { get; set; }
-        public string Role { get; set; }
-        
-        public ICollection<RiwayatTransaksi> RiwayatTransaksis { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string NamaLengkap { get; set; } = string.Empty;
+        public string Asrama { get; set; } = string.Empty;
+        public decimal SaldoDigigall { get; set; } = 0;
+        public string Role { get; set; } = "None";
         public ICollection<Transaksi> Transaksis { get; set; }
         public ICollection<PemberianQuest> PemberianQuests { get; set; }
     }

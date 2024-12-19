@@ -38,15 +38,8 @@
             <td>@Html.DisplayFor(modelItem => item.Reward)</td>
             <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
             <td>
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.NamaQuest">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.NamaQuest">Delete</a>
-                }
-                else
-                {
-                    <a asp-action="TakeQuest" asp-route-id="@item.NamaQuest">Take</a>
-                }
+                    <a asp-action="Edit" asp-route-id="@item.QuestId">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.QuestId">Delete</a>
             </td>
         </tr>
     }

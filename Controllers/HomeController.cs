@@ -3,6 +3,8 @@ using DigiGall.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace DigiGall.Controllers
 {
@@ -11,7 +13,7 @@ namespace DigiGall.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger , ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -19,35 +21,39 @@ namespace DigiGall.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Pastikan context tidak null
             if (_context == null)
             {
                 _logger.LogError("DbContext tidak diinisialisasi dengan benar.");
-                return View("Error");  // Menampilkan halaman error jika DbContext null
+                return View("Error");
             }
 
-            // Cek apakah tabel PemberianQuests kosong
-            var pemberianQuests = await _context.PemberianQuests
-                .Include(pq => pq.Quest) // Join ke tabel Quest
-                .Include(pq => pq.User) // Join ke tabel User
-                .Select(pq => new PemberianQuestViewModel
-                {
-                    NamaPembuat = pq.User.NamaLengkap, // Nama dari pembuat quest
-                    NamaQuest = pq.Quest.NamaQuest, // Nama dari quest
-                    Reward = pq.Quest.Reward.ToString(), // Reward dari quest
-                    Deskripsi = pq.Quest.Deskripsi, // Deskripsi quest
-                    Deadline = pq.Quest.Deadline // Deadline quest
-                })
-                .ToListAsync();
+            // Pindahkan deklarasi user ke atas
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
+            if (user == null) return NotFound();
 
-            if (pemberianQuests == null || !pemberianQuests.Any())
+            // Periksa peran user setelah variabel user dideklarasikan
+            if (user.Role == "Admin")
             {
-                _logger.LogWarning("Tabel PemberianQuests tidak memiliki data.");
+                return RedirectToAction("Index", "Quest");
             }
 
-            return View(pemberianQuests);  // Mengirimkan data ViewModel ke tampilan
-        }
+            var quests = await _context.Quests.ToListAsync();
 
+            var questStatusList = new List<QuestStatusViewModel>();
+
+            foreach (var quest in quests)
+            {
+                var isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
+
+                questStatusList.Add(new QuestStatusViewModel
+                {
+                    Quest = quest,
+                    IsTaken = isTaken
+                });
+            }
+
+            return View(questStatusList);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
