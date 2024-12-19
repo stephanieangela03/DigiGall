@@ -2,5 +2,5 @@
 obj/
 bin/
 .vscode/
-Mirgations/
+Migrations/
 .vs/

@@ -9,7 +9,7 @@ namespace DigiGall.Models
 
         public string Kriteria { get; set; }
         public string Deskripsi { get; set; }
-        public string Reward { get; set; }
+        public int Reward { get; set; } 
         public DateTime Deadline { get; set; }
         
     }

@@ -26,25 +26,27 @@
         </div>
 
         <!-- User Info -->
-        <div class="user-info d-flex align-items-center">
+       <div class="user-info d-flex align-items-center">
             <span class="me-3">
-                <i class="fa fa-coins"></i> 1200
+                <i class="fa fa-coins"></i> @Context.Session.GetString("UserSaldo")
             </span>
-            <span class="me-3">Hello, XYZ</span>
+            <span class="me-3">, Halo @Context.Session.GetString("UserName") </span>
             <div class="user-icon">
                 <span>X</span>
             </div>
         </div>
+
+
     </header>
 
 
     <!-- Left Vertical Navigation Bar -->
     <nav class="vertical-navbar">
         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        <a asp-area="" asp-controller="Shop" asp-action="HogsmeadeShop">Hogsmeade Shop</a>
+        <a asp-area="" asp-controller="Items" asp-action="HogsmeadeShop">Hogsmeade Shop</a>
         <a asp-area="" asp-controller="RiwayatTransaksi" asp-action="RiwayatTransaksi">History</a>
-        @* <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a> *@
+        <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
     </nav>
 
     <!-- Main Content -->

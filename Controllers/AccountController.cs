@@ -63,7 +63,7 @@ namespace DigiGall.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Name, user.NamaLengkap),
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
@@ -74,6 +74,9 @@ namespace DigiGall.Controllers
 
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserRole", user.Role);
+            HttpContext.Session.SetString("UserName", user.NamaLengkap);
+            HttpContext.Session.SetString("UserSaldo", user.SaldoDigigall.ToString());
+
 
             return RedirectToAction("Index", "Quest");
         }

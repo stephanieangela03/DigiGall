@@ -30,6 +30,20 @@ public class QuestController : Controller
     }
 
     // POST: Quest/Create
+    // [HttpPost]
+    // [ValidateAntiForgeryToken]
+    // [Authorize(Roles = "Admin")]
+    // public async Task<IActionResult> Create([Bind("NamaQuest,Kriteria,Deskripsi,Reward,Deadline")] Quest quest)
+    // {
+    //     if (ModelState.IsValid)
+    //     {
+    //         _context.Add(quest);
+    //         await _context.SaveChangesAsync();
+    //         return RedirectToAction(nameof(Index));
+    //     }
+    //     return View(quest);
+    // }
+    // POST: Quest/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
@@ -38,11 +52,26 @@ public class QuestController : Controller
         if (ModelState.IsValid)
         {
             _context.Add(quest);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // Simpan quest terlebih dahulu
+
+            // Tambahkan data ke tabel PemberianQuest
+            var pemberianQuest = new PemberianQuest()
+            {
+                NamaQuest = quest.NamaQuest, // Menghubungkan quest ke PemberianQuest
+                Email = HttpContext.Session.GetString("UserEmail"), // Ambil email dari user yang login
+                // NamaPembuat = HttpContext.Session.GetString("UserName"), // Ambil nama dari user yang login
+                TanggalSelesai = quest.Deadline, // Tanggal pengisian data
+                Status = "Belum Dikerjakan" // Status default, bisa diubah sesuai kebutuhan
+            };
+
+            _context.PemberianQuests.Add(pemberianQuest);
+            await _context.SaveChangesAsync(); // Simpan ke database
+
             return RedirectToAction(nameof(Index));
         }
         return View(quest);
     }
+
 
     // GET: Quest/Edit/5
     [Authorize(Roles = "Admin")]
