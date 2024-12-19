@@ -10,6 +10,7 @@ namespace DigiGall.Models
         public string NamaPembuat { get; set; }
         public string NamaQuest { get; set; }
         public string Reward { get; set; }
+        public string Deskripsi { get; set; }
         public DateTime Deadline { get; set; }
     }
 }

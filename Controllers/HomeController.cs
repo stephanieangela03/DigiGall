@@ -35,6 +35,7 @@ namespace DigiGall.Controllers
                     NamaPembuat = pq.User.NamaLengkap, // Nama dari pembuat quest
                     NamaQuest = pq.Quest.NamaQuest, // Nama dari quest
                     Reward = pq.Quest.Reward.ToString(), // Reward dari quest
+                    Deskripsi = pq.Quest.Deskripsi, // Deskripsi quest
                     Deadline = pq.Quest.Deadline // Deadline quest
                 })
                 .ToListAsync();
