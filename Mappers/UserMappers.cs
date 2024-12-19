@@ -14,9 +14,8 @@ namespace DigiGall.Mappers
                 NamaLengkap = createUserDto.NamaLengkap,
                 Password = createUserDto.Password,
                 Asrama = createUserDto.Asrama,  
-                SaldoDigigall = 0,  // Default value
-                Role = "User",  // Default role
-                RiwayatTransaksis = new List<RiwayatTransaksi>(),
+                SaldoDigigall = 0,  
+                Role = "User",  
                 Transaksis = new List<Transaksi>(),
                 PemberianQuests = new List<PemberianQuest>()
             };
@@ -33,7 +32,6 @@ namespace DigiGall.Mappers
                 Asrama = userModel.Asrama,
                 SaldoDigigall = userModel.SaldoDigigall,
                 Role = userModel.Role,
-                RiwayatTransaksis = userModel.RiwayatTransaksis,
                 Transaksis = userModel.Transaksis,
                 PemberianQuests = userModel.PemberianQuests
             };

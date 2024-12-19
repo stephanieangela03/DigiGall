@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using DigiGall.Data;
 using DigiGall.Models;
 
@@ -13,45 +10,103 @@ namespace DigiGall.Controllers
     public class ItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ItemsController> _logger;
 
-        public ItemsController(ApplicationDbContext context)
+        public ItemsController(ApplicationDbContext context, ILogger<ItemsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Items
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Items.ToListAsync());
         }
 
-        // GET: Items/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Items/Create
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create()
         {
-            if (id == null)
+            if (User.IsInRole("Admin"))
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));  // Arahkan Admin ke halaman Index
+            }
+            else
+            {
+                return RedirectToAction(nameof(HogsmeadeShop));  // Arahkan selain Admin ke halaman HogsmeadeShop
+            }
+        }
+
+        // GET: Items/HogsmeadeShop
+        public async Task<IActionResult> HogsmeadeShop()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction(nameof(Index));  // Arahkan Admin ke halaman Index
+            }
+            if (_context == null)
+            {
+                _logger.LogError("DbContext tidak diinisialisasi dengan benar.");
+                return View("Error");
             }
 
-            var item = await _context.Items
-                .FirstOrDefaultAsync(m => m.NamaItem == id);
-            if (item == null)
+            // Ambil seluruh data dari tabel Items
+            var items = await _context.Items.ToListAsync();
+
+            if (items == null || !items.Any())
             {
-                return NotFound();
+                _logger.LogWarning("Tabel Items tidak memiliki data.");
             }
+
+            return View(items);  // Mengirimkan data Items ke tampilan
+        }
+
+        // GET: Items/Edit/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            if (id == Guid.Empty)
+                return NotFound();
+
+            var item = await _context.Items.FindAsync(id);
+            if (item == null)
+                return NotFound();
 
             return View(item);
         }
 
-        // GET: Items/Create
-        public IActionResult HogsmeadeShop()
+        // POST: Items/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(Guid id, [Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
         {
-            return View();
+            if (id == Guid.Empty)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(item);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ItemExists(item.ItemId))
+                        return NotFound();
+                    else
+                        throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(item);
         }
 
         // POST: Items/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
@@ -65,71 +120,17 @@ namespace DigiGall.Controllers
             return View(item);
         }
 
-        // GET: Items/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var item = await _context.Items.FindAsync(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return View(item);
-        }
-
-        // POST: Items/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
-        {
-            if (id != item.NamaItem)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ItemExists(item.NamaItem))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(item);
-        }
-
         // GET: Items/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
+            if (id == Guid.Empty)
                 return NotFound();
-            }
 
             var item = await _context.Items
-                .FirstOrDefaultAsync(m => m.NamaItem == id);
+                .FirstOrDefaultAsync(m => m.ItemId == id);
             if (item == null)
-            {
                 return NotFound();
-            }
 
             return View(item);
         }
@@ -137,21 +138,22 @@ namespace DigiGall.Controllers
         // POST: Items/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var item = await _context.Items.FindAsync(id);
             if (item != null)
             {
                 _context.Items.Remove(item);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ItemExists(int id)
+        private bool ItemExists(Guid id)
         {
-            return _context.Items.Any(e => e.NamaItem == id);
+            return _context.Items.Any(e => e.ItemId == id);
         }
     }
 }
