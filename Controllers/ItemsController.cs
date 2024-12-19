@@ -19,24 +19,17 @@ namespace DigiGall.Controllers
         }
 
         // GET: Items
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Items.ToListAsync());
         }
 
         // GET: Items/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
-            // Periksa apakah pengguna adalah Admin
 
-            // if (User.IsInRole("Admin"))
-            // {
-            //     return RedirectToAction(nameof(Index));  // Arahkan Admin ke halaman Index
-            // }
-            // else
-            // {
-            //     return RedirectToAction(nameof(HogsmeadeShop));  // Arahkan selain Admin ke halaman HogsmeadeShop
-            // }
             return View();
         }
 
@@ -103,6 +96,7 @@ namespace DigiGall.Controllers
         // POST: Items/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
         {
             if (ModelState.IsValid)
