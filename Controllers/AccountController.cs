@@ -3,6 +3,7 @@ using DigiGall.Data;
 using DigiGall.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
 using System.Text;
 using System.Security.Claims;
