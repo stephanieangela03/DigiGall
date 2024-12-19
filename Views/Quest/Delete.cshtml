@@ -43,8 +43,8 @@
         </dd>
     </dl>
     
-    <form asp-action="DeleteConfirmed" method="post">
-        <input type="hidden" name="id" value="@Model.NamaQuest" />  
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.QuestId" />  
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

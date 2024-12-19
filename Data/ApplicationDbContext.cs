@@ -15,7 +15,8 @@ namespace DigiGall.Data
         public DbSet<PemberianQuest> PemberianQuests { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Transaksi> Transaksis { get; set; }
-        public DbSet<RiwayatTransaksi> RiwayatTransaksis { get; set; }
         public DbSet<Item> Items { get; set; }
+
+        
     }
 }

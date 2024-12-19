@@ -5,17 +5,22 @@ namespace DigiGall.Models
     public class User
     {
         [Key]
-        public string Email { get; set; }
+        [Required]
+        public Guid UserId { get; set; } = Guid.NewGuid();
 
-        public string NamaLengkap { get; set; }
-        public string Password { get; set; }
-        public string Asrama { get; set; }
-        public decimal SaldoDigigall { get; set; }
-        public string Role { get; set; }    
+        [Required]
+        public string Email { get; set; } = string.Empty;
 
-        public ICollection<RiwayatTransaksi> RiwayatTransaksis { get; set; }
+        [Required]
+        public string NamaLengkap { get; set; } = string.Empty;
+        [Required]
+        public string Password { get; set; } = string.Empty;
+        public string Asrama { get; set; } = "None";
+        public decimal SaldoDigigall { get; set; } = 0;
+        public string Role { get; set; } = "User";  
         public ICollection<Transaksi> Transaksis { get; set; }
         public ICollection<PemberianQuest> PemberianQuests { get; set; }
+        
     }
 
 }
