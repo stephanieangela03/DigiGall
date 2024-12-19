@@ -19,25 +19,25 @@ namespace DigiGall.Controllers
         }
 
         // GET: Items
-
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Items.ToListAsync());
         }
 
         // GET: Items/Create
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction(nameof(Index));  // Arahkan Admin ke halaman Index
-            }
-            else
-            {
-                return RedirectToAction(nameof(HogsmeadeShop));  // Arahkan selain Admin ke halaman HogsmeadeShop
-            }
+            // Periksa apakah pengguna adalah Admin
+
+            // if (User.IsInRole("Admin"))
+            // {
+            //     return RedirectToAction(nameof(Index));  // Arahkan Admin ke halaman Index
+            // }
+            // else
+            // {
+            //     return RedirectToAction(nameof(HogsmeadeShop));  // Arahkan selain Admin ke halaman HogsmeadeShop
+            // }
+            return View();
         }
 
         // GET: Items/HogsmeadeShop
@@ -66,9 +66,9 @@ namespace DigiGall.Controllers
 
         // GET: Items/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(string id)
         {
-            if (id == Guid.Empty)
+            if (string.IsNullOrEmpty(id))
                 return NotFound();
 
             var item = await _context.Items.FindAsync(id);
@@ -82,9 +82,9 @@ namespace DigiGall.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(Guid id, [Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
+        public async Task<IActionResult> Edit(string id, [Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
         {
-            if (id == Guid.Empty)
+            if (id != item.NamaItem)
                 return NotFound();
 
             if (ModelState.IsValid)
@@ -96,7 +96,7 @@ namespace DigiGall.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemExists(item.ItemId))
+                    if (!ItemExists(item.NamaItem))
                         return NotFound();
                     else
                         throw;
@@ -122,13 +122,13 @@ namespace DigiGall.Controllers
 
         // GET: Items/Delete/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (id == Guid.Empty)
+            if (string.IsNullOrEmpty(id))
                 return NotFound();
 
             var item = await _context.Items
-                .FirstOrDefaultAsync(m => m.ItemId == id);
+                .FirstOrDefaultAsync(m => m.NamaItem == id);
             if (item == null)
                 return NotFound();
 
@@ -139,7 +139,7 @@ namespace DigiGall.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var item = await _context.Items.FindAsync(id);
             if (item != null)
@@ -151,9 +151,9 @@ namespace DigiGall.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ItemExists(Guid id)
+        private bool ItemExists(string id)
         {
-            return _context.Items.Any(e => e.ItemId == id);
+            return _context.Items.Any(e => e.NamaItem == id);
         }
     }
 }
