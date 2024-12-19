@@ -18,7 +18,7 @@ namespace DigiGall.Models
         public User User { get; set; }
 
         [ForeignKey("Item")]
-        public int NamaItem { get; set; }
+        public string NamaItem { get; set; }
         public Item Item { get; set; }
     }
 
