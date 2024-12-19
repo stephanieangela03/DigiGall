@@ -1,5 +1,6 @@
 ﻿using DigiGall.Data;
 using DigiGall.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,13 @@ namespace DigiGall.Controllers
             _context = context;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> Quest()
         {
             var userName = HttpContext.User.Identity?.Name;
@@ -40,6 +43,7 @@ namespace DigiGall.Controllers
             return View(questList);
         }
 
+        [Authorize]
         public async Task<IActionResult> Transaction()
         {
             var userName = HttpContext.User.Identity?.Name;
