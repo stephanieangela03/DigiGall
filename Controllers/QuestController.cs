@@ -159,15 +159,25 @@ public class QuestController : Controller
     }
 
 
-    [HttpPost]
-    [Authorize]
-    public async Task<bool> CheckQuestTaken(Guid id)
+    public async Task<IActionResult> Detail(Guid id)
     {
-        if (id == Guid.Empty) return false;
+        if (id == Guid.Empty) return NotFound();
+        var quest = await _context.Quests.FindAsync(id);
 
         var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
-        if (user == null) return false;
+        if (user == null) return NotFound();
 
-        return await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == id && pq.UserId == user.UserId);
+        var isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
+
+
+        var QuestStatus =  new QuestStatusViewModel()
+        {
+            Quest = quest,
+            IsTaken = isTaken
+        };
+
+
+        if (quest == null) return NotFound();
+        return View(QuestStatus);
     }
 }

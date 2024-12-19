@@ -1,0 +1,32 @@
+﻿@model DigiGall.Models.TransactionHistoryViewModel
+
+@{
+    ViewData["Title"] = "Transaction History";
+}
+
+<h2>Transaction History</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Transaction ID</th>
+        <th>Item Name</th>
+        <th>Jumlah Pembelian</th>
+        <th>Total Harga</th>
+        <th>Tanggal Transaksi</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var transaction in Model.Transaksis)
+    {
+        var item = Model.Items.FirstOrDefault(i => i.ItemId == transaction.ItemId);
+        <tr>
+            <td>@transaction.TransaksiId</td>
+            <td>@item?.NamaItem</td>
+            <td>@transaction.JumlahPembelian</td>
+            <td>@transaction.TotalHarga</td>
+            <td>@transaction.TanggalTransaksi</td>
+        </tr>
+    }
+    </tbody>
+</table>

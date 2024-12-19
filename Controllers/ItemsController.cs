@@ -43,17 +43,13 @@ namespace DigiGall.Controllers
         // GET: Items/HogsmeadeShop
         public async Task<IActionResult> HogsmeadeShop()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction(nameof(Index));  // Arahkan Admin ke halaman Index
-            }
+            
             if (_context == null)
             {
                 _logger.LogError("DbContext tidak diinisialisasi dengan benar.");
                 return View("Error");
             }
 
-            // Ambil seluruh data dari tabel Items
             var items = await _context.Items.ToListAsync();
 
             if (items == null || !items.Any())
@@ -61,15 +57,14 @@ namespace DigiGall.Controllers
                 _logger.LogWarning("Tabel Items tidak memiliki data.");
             }
 
-            return View(items);  // Mengirimkan data Items ke tampilan
+            return View(items);  
         }
 
         // GET: Items/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-                return NotFound();
+            if (id == Guid.Empty) return NotFound();
 
             var item = await _context.Items.FindAsync(id);
             if (item == null)
@@ -82,10 +77,9 @@ namespace DigiGall.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(string id, [Bind("NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ItemId,NamaItem,Deskripsi,URLGambar,Stok,Harga")] Item item)
         {
-            if (id != item.NamaItem)
-                return NotFound();
+            if (id == Guid.Empty) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -96,7 +90,7 @@ namespace DigiGall.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemExists(item.NamaItem))
+                    if (!ItemExists(item.ItemId))
                         return NotFound();
                     else
                         throw;
@@ -122,13 +116,13 @@ namespace DigiGall.Controllers
 
         // GET: Items/Delete/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (id == Guid.Empty)
                 return NotFound();
 
             var item = await _context.Items
-                .FirstOrDefaultAsync(m => m.NamaItem == id);
+                .FirstOrDefaultAsync(m => m.ItemId == id);
             if (item == null)
                 return NotFound();
 
@@ -139,7 +133,7 @@ namespace DigiGall.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var item = await _context.Items.FindAsync(id);
             if (item != null)
@@ -151,9 +145,58 @@ namespace DigiGall.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ItemExists(string id)
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Purchase(Guid itemId , int Amount)
         {
-            return _context.Items.Any(e => e.NamaItem == id);
+            if (itemId == Guid.Empty) return NotFound();
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
+
+            if (user == null) return NotFound();
+
+            var item = await _context.Items.FindAsync(itemId);
+            if (item == null) return NotFound();
+
+            if (user.SaldoDigigall < item.Harga * Amount)
+            {
+                ViewBag.ErrorMessage = "Saldo Anda tidak cukup untuk membeli item ini.";
+                return View("HogsmeadeShop", await _context.Items.ToListAsync());
+            }
+            else
+            {
+                user.SaldoDigigall -= item.Harga * Amount;
+                item.Stok -= 1 * Amount;
+
+                _context.Users.Update(user);
+                _context.Items.Update(item);
+
+                await _context.SaveChangesAsync();
+
+
+                var transaksi = new Transaksi()
+                {
+                    ItemId = itemId,
+                    UserId = user.UserId,
+                    TotalHarga = item.Harga * Amount,
+                    JumlahPembelian = Amount,
+                    TanggalTransaksi = DateTime.Now
+                };
+
+
+                _context.Transaksis.Add(transaksi);
+                await _context.SaveChangesAsync();
+
+            }
+
+            return RedirectToAction(nameof(HogsmeadeShop));
+        }
+
+        private bool ItemExists(Guid id)
+        {
+            return _context.Items.Any(e => e.ItemId == id);
         }
     }
 }
