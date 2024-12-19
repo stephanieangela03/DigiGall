@@ -55,6 +55,21 @@ namespace DigiGall.Controllers
             return View(questStatusList);
         }
 
+
+        public async Task<IActionResult> Quest(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            var quest = await _context.Quests.FindAsync(id);
+            if (quest == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Detail", "Quest", new { id });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

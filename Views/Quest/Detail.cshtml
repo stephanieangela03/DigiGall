@@ -1,0 +1,49 @@
+﻿@model DigiGall.Models.QuestStatusViewModel
+
+@{
+    ViewData["Title"] = "Quest Details";
+    var questStatus = Model;
+    var quest = questStatus.Quest;
+}
+
+<h1>@quest.NamaQuest</h1>
+
+<div>
+    <h4>Quest Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Kriteria</dt>
+        <dd class="col-sm-10">@quest.Kriteria</dd>
+
+        <dt class="col-sm-2">Deskripsi</dt>
+        <dd class="col-sm-10">@quest.Deskripsi</dd>
+
+        <dt class="col-sm-2">Reward</dt>
+        <dd class="col-sm-10">@quest.Reward</dd>
+
+        <dt class="col-sm-2">Creator</dt>
+        <dd class="col-sm-10">@quest.Creator</dd>
+
+        <dt class="col-sm-2">Deadline</dt>
+        <dd class="col-sm-10">@quest.Deadline.ToString("yyyy-MM-dd HH:mm:ss")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to List</a>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (questStatus.IsTaken)
+        {
+            <button disabled>Taken</button> 
+        }
+        else
+        {
+            <form asp-controller="Quest" asp-action="TakeQuest" method="post">
+                <input type="hidden" name="id" value="@quest.QuestId" />
+                <button type="submit">Take Quest</button>
+            </form>
+        }
+    }
+</div>

@@ -18,7 +18,7 @@ namespace DigiGall.Models
         [Required]
         public int Harga { get; set; } = 0;
 
-        public ICollection<Transaksi> Transaksis { get; set; }
+        public ICollection<Transaksi>? Transaksis { get; set; }
     }
 
 }

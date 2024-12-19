@@ -25,6 +25,7 @@
             <div class="quest-info">
                 <span class="quest-deadline">Deadline: @quest.Deadline.ToString("dd/MM/yyyy")</span> 
             </div>
+            <a asp-action="Detail" asp-controller="Quest" asp-route-id="@quest.QuestId">Detail</a>
             @if (User.Identity.IsAuthenticated)
             {
                 @if (questStatus.IsTaken)
@@ -39,8 +40,6 @@
                     </form>
                 }
             }
-            
-
         </div>
     }
 </div>
