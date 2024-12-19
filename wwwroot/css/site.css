@@ -2,9 +2,17 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
+@media (max-width: 768px) {
+    .vertical-navbar {
+        width: 100%; /* Sidebar memenuhi lebar layar */
+        height: auto; /* Tinggi sidebar disesuaikan */
+        position: relative; /* Sidebar tidak fixed di layar kecil */
+    }
+
+    .main-content {
+        margin-left: 0; /* Hapus margin kiri */
+        max-width: 100%; /* Konten memenuhi lebar layar */
+        padding: 10px; /* Padding lebih kecil untuk layar kecil */
     }
 }
 
@@ -111,13 +119,22 @@ body {
 
 /* Home Page */
 .main-content {
-    margin-top: 70px; /* Adjust for top navbar */
-    margin-left: 220px; /* Adjust for left navbar width */
-    padding: 20px;
+    margin-top: 70px; /* Jarak dari top navbar */
+    margin-left: 220px; /* Jarak dari left navbar */
+    padding: 20px; /* Padding di dalam konten */
+    max-width: calc(100% - 240px); /* Batas maksimum lebar konten */
+    width: 100%; /* Konten mengisi seluruh lebar yang tersedia */
+    box-sizing: border-box; /* Padding termasuk dalam lebar elemen */
+    margin-right: auto; /* Pastikan konten tetap berada di tengah */
+    margin-bottom: 20px; /* Jarak dari bawah halaman */
 }
+
+
 
 .quest-container {
     margin-top: 20px;
+    width: 100%;
+    overflow-x: hidden;
 }
 
     .quest-container h2 {
