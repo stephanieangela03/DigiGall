@@ -77,7 +77,10 @@ namespace DigiGall.Controllers
             HttpContext.Session.SetString("UserName", user.NamaLengkap);
             HttpContext.Session.SetString("UserSaldo", user.SaldoDigigall.ToString());
 
-
+            if (user.Role == "User")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return RedirectToAction("Index", "Quest");
         }
 
