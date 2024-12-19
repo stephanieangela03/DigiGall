@@ -143,54 +143,78 @@ namespace DigiGall.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Purchase(Guid itemId , int Amount)
+        public async Task<IActionResult> Purchase(Guid itemId, int amount)
         {
+            // Periksa apakah itemId valid
             if (itemId == Guid.Empty) return NotFound();
 
+            // Dapatkan user yang sedang login
             var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
-
             if (user == null) return NotFound();
 
+            // Dapatkan item berdasarkan itemId
             var item = await _context.Items.FindAsync(itemId);
             if (item == null) return NotFound();
 
-            if (user.SaldoDigigall < item.Harga * Amount)
+            // Validasi jumlah pembelian tidak boleh kurang dari 1
+            if (amount <= 0)
+            {
+                ViewBag.ErrorMessage = "Jumlah pembelian harus lebih dari 0.";
+                return View("HogsmeadeShop", await _context.Items.ToListAsync());
+            }
+
+            // Validasi apakah stok mencukupi
+            if (item.Stok < amount)
+            {
+                ViewBag.ErrorMessage = "Stok tidak mencukupi untuk jumlah yang ingin Anda beli.";
+                return View("HogsmeadeShop", await _context.Items.ToListAsync());
+            }
+
+            // Validasi apakah saldo pengguna mencukupi
+            int totalHarga = item.Harga * amount;
+            if (user.SaldoDigigall < totalHarga)
             {
                 ViewBag.ErrorMessage = "Saldo Anda tidak cukup untuk membeli item ini.";
                 return View("HogsmeadeShop", await _context.Items.ToListAsync());
             }
-            else
+
+            // Mengurangi saldo user dan stok item
+            user.SaldoDigigall -= totalHarga;
+            item.Stok -= amount;
+
+            // Simpan perubahan ke database
+            _context.Users.Update(user);
+            _context.Items.Update(item);
+
+            // Membuat entri transaksi baru
+            var transaksi = new Transaksi()
             {
-                user.SaldoDigigall -= item.Harga * Amount;
-                item.Stok -= 1 * Amount;
+                ItemId = itemId,
+                UserId = user.UserId,
+                TotalHarga = totalHarga,
+                JumlahPembelian = amount,
+                TanggalTransaksi = DateTime.Now
+            };
 
-                _context.Users.Update(user);
-                _context.Items.Update(item);
+            _context.Transaksis.Add(transaksi);
+            await _context.SaveChangesAsync();
 
-                await _context.SaveChangesAsync();
-
-
-                var transaksi = new Transaksi()
-                {
-                    ItemId = itemId,
-                    UserId = user.UserId,
-                    TotalHarga = item.Harga * Amount,
-                    JumlahPembelian = Amount,
-                    TanggalTransaksi = DateTime.Now
-                };
-
-
-                _context.Transaksis.Add(transaksi);
-                await _context.SaveChangesAsync();
-
-            }
+            // Kirim notifikasi sukses
+            TempData["SuccessMessage"] = "Pembelian berhasil!";
 
             return RedirectToAction(nameof(HogsmeadeShop));
         }
+
+        
 
         private bool ItemExists(Guid id)
         {
             return _context.Items.Any(e => e.ItemId == id);
         }
+
+        
+
+
+
     }
 }

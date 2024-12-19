@@ -2,7 +2,7 @@
 
 namespace DigiGall.Models
 {
-    public class User
+    public class User 
     {
         [Key]
         [Required]

@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using DigiGall.Dtos.User;
 using DigiGall.Mappers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigiGall.Controllers
 {
@@ -133,6 +135,40 @@ namespace DigiGall.Controllers
                 var hash = sha256.ComputeHash(bytes);
                 return Convert.ToBase64String(hash);
             }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Manage()
+        {
+            var users = await _context.Users
+                .Where(u => u.Role.ToLower() != "admin")
+                .ToListAsync();
+
+            return View("~/Views/Points/Manage.cshtml",users); // Path absolut ke view yang benar
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdatePoint(Guid userId, decimal point)
+        {
+            // Cari user berdasarkan userId
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Update saldo Digigall user
+            user.SaldoDigigall = point;
+
+            // Simpan perubahan ke database
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            // Kirim notifikasi sukses
+            TempData["SuccessMessage"] = "User's DigiGall balance updated successfully.";
+
+            return RedirectToAction(nameof(Manage));
         }
     }
 }

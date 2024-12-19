@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "History Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+    <div class="d-flex justify-content-center gap-4">
+        <a asp-action="Transaction" asp-controller="History" class="btn btn-primary btn-lg shadow">Transaction History</a>
+        <a asp-action="Quest" asp-controller="History" class="btn btn-success btn-lg shadow">Quest History</a>
+    </div>
+</div>

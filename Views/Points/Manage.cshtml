@@ -6,33 +6,39 @@
 
 <h1>Manage Users</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <table class="table">
     <thead>
-    <tr>
-        <th>User Name</th>
-        <th>Asrama</th>
-        <th>Digigall</th>
-        <th>Role</th>
-        <th>Update Points</th>
-    </tr>
+        <tr>
+            <th>User Name</th>
+            <th>Asrama</th>
+            <th>Digigall</th>
+            <th>Role</th>
+            <th>Update Points</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.NamaLengkap</td>
-            <td>@user.Asrama</td>
-            <td>@user.SaldoDigigall</td>
-            <td>@user.Role</td>
-            <td>
-                <form asp-action="updatePoint" method="post" class="form-inline">
-                    <input type="number" class="form-control mr-2" name="point" placeholder="@user.SaldoDigigall" required />
-                    <input type="hidden" name="userId" value="@user.UserId" />
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-            </td>
-        </tr>
-    }
-    
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.NamaLengkap</td>
+                <td>@user.Asrama</td>
+                <td>@user.SaldoDigigall</td>
+                <td>@user.Role</td>
+                <td>
+                    <form asp-action="UpdatePoint" method="post" class="form-inline">
+                        <input type="number" class="form-control mr-2" name="point" placeholder="@user.SaldoDigigall" required />
+                        <input type="hidden" name="userId" value="@user.UserId" />
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

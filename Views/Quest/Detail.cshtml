@@ -30,7 +30,13 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to List</a>
+    @if (Context.Session.GetString("UserRole") == "Admin")
+    {
+        <a asp-action="Index" asp-controller="Quest" class="btn btn-primary">Back to List</a>
+    }else{
+
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to List</a>
+    }
 
     @if (User.Identity.IsAuthenticated)
     {
