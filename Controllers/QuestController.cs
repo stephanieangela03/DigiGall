@@ -3,10 +3,9 @@ using DigiGall.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 public class QuestController : Controller
-{
+{   
     private readonly ApplicationDbContext _context;
 
     public QuestController(ApplicationDbContext context)
@@ -15,7 +14,7 @@ public class QuestController : Controller
     }
 
     // GET: Quest
-    //[Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Index()
     {
         var quests = await _context.Quests.ToListAsync();
@@ -29,21 +28,6 @@ public class QuestController : Controller
         return View();
     }
 
-    // POST: Quest/Create
-    // [HttpPost]
-    // [ValidateAntiForgeryToken]
-    // [Authorize(Roles = "Admin")]
-    // public async Task<IActionResult> Create([Bind("NamaQuest,Kriteria,Deskripsi,Reward,Deadline")] Quest quest)
-    // {
-    //     if (ModelState.IsValid)
-    //     {
-    //         _context.Add(quest);
-    //         await _context.SaveChangesAsync();
-    //         return RedirectToAction(nameof(Index));
-    //     }
-    //     return View(quest);
-    // }
-    // POST: Quest/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
@@ -51,22 +35,10 @@ public class QuestController : Controller
     {
         if (ModelState.IsValid)
         {
+            quest.Creator = HttpContext.User.Identity.Name;
+            
             _context.Add(quest);
-            await _context.SaveChangesAsync(); // Simpan quest terlebih dahulu
-
-            // Tambahkan data ke tabel PemberianQuest
-            var pemberianQuest = new PemberianQuest()
-            {
-                NamaQuest = quest.NamaQuest, // Menghubungkan quest ke PemberianQuest
-                Email = HttpContext.Session.GetString("UserEmail"), // Ambil email dari user yang login
-                // NamaPembuat = HttpContext.Session.GetString("UserName"), // Ambil nama dari user yang login
-                TanggalSelesai = quest.Deadline, // Tanggal pengisian data
-                Status = "Belum Dikerjakan" // Status default, bisa diubah sesuai kebutuhan
-            };
-
-            _context.PemberianQuests.Add(pemberianQuest);
-            await _context.SaveChangesAsync(); // Simpan ke database
-
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         return View(quest);
@@ -75,10 +47,12 @@ public class QuestController : Controller
 
     // GET: Quest/Edit/5
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Edit(string id)
+    public async Task<IActionResult> Edit(Guid id)
     {
-        if (string.IsNullOrEmpty(id))
+        if (id == Guid.Empty)
+        {
             return NotFound();
+        }
 
         var quest = await _context.Quests.FindAsync(id);
         if (quest == null)
@@ -91,10 +65,12 @@ public class QuestController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Edit(string id, [Bind("NamaQuest,Kriteria,Deskripsi,Reward,Deadline")] Quest quest)
+    public async Task<IActionResult> Edit(Guid id, [Bind("QuestId,NamaQuest,Kriteria,Deskripsi,Reward,Deadline")] Quest quest)
     {
-        if (id != quest.NamaQuest)
+        if (id != quest.QuestId)
+        {
             return NotFound();
+        }
 
         if (ModelState.IsValid)
         {
@@ -105,7 +81,7 @@ public class QuestController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!QuestExists(quest.NamaQuest))
+                if (!QuestExists(quest.QuestId))
                     return NotFound();
                 else
                     throw;
@@ -117,13 +93,12 @@ public class QuestController : Controller
 
     // GET: Quest/Delete/5
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        if (string.IsNullOrEmpty(id))
-            return NotFound();
+        if (id == Guid.Empty) return NotFound();
 
         var quest = await _context.Quests
-            .FirstOrDefaultAsync(m => m.NamaQuest == id);
+            .FirstOrDefaultAsync(m => m.QuestId == id);
 
         if (quest == null)
             return NotFound();
@@ -132,60 +107,67 @@ public class QuestController : Controller
     }
 
     // POST: Quest/Delete/5
-    [HttpPost]
+    [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeleteConfirmed(string id)
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        if (id == Guid.Empty) return NotFound();
 
-        var quest = await _context.Quests.FirstOrDefaultAsync(q => q.NamaQuest == id);
+        var quest = await _context.Quests.FindAsync(id);
         if (quest != null)
         {
             _context.Quests.Remove(quest);
             await _context.SaveChangesAsync();
         }
         return RedirectToAction(nameof(Index));
-
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    [Authorize(Roles = "User,Admin")]
-    public async Task<IActionResult> TakeQuest(string id)
+    [Authorize]
+    public async Task<IActionResult> TakeQuest(Guid id)
     {
-        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (userId == null)
-        {
-            return Unauthorized(); 
-        }
+        if (id == Guid.Empty) return NotFound();
 
         var quest = await _context.Quests.FindAsync(id);
-        if (quest == null)
+        if (quest == null) return NotFound();
+
+
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
+        if (user == null) return NotFound();
+
+        var pemberianQuest = new PemberianQuest
         {
-            return NotFound(); 
-        }
+            PemberianQuestId = Guid.NewGuid(),
+            TanggalSelesai = quest.Deadline,
+            TanggalMulai = DateTime.Now,
+            Status = "In Progress",
+            QuestId = quest.QuestId,
+            UserId = user.UserId
+        };
 
-        //var userQuest = new PemberianQuest()
-        //{
-        //    QuestId = quest.Id,
-        //    UserId = userId,
-        //    TakenAt = DateTime.UtcNow
-        //};
-
-        //_context.UserQuests.Add(userQuest);
+        _context.PemberianQuests.Add(pemberianQuest);
         await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(Index)); // Redirect back to quest list
+        return RedirectToAction("Index", "Home");
+    }
+
+    private bool QuestExists(Guid id)
+    {
+        return _context.Quests.Any(e => e.QuestId == id);
     }
 
 
-    private bool QuestExists(string id)
+    [HttpPost]
+    [Authorize]
+    public async Task<bool> CheckQuestTaken(Guid id)
     {
-        return _context.Quests.Any(e => e.NamaQuest == id);
+        if (id == Guid.Empty) return false;
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
+        if (user == null) return false;
+
+        return await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == id && pq.UserId == user.UserId);
     }
 }

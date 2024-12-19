@@ -5,12 +5,18 @@ namespace DigiGall.Models
     public class Item
     {
         [Key]
-        public int NamaItem { get; set; }
+        [Required]
+        public Guid ItemId { get; set; } = Guid.NewGuid();
 
-        public string Deskripsi { get; set; }
-        public string URLGambar { get; set; }
-        public int Stok { get; set; }
-        public decimal Harga { get; set; }
+        [Required]
+        public string NamaItem { get; set; } = string.Empty;
+
+        public string? Deskripsi { get; set; } = string.Empty;
+        public string? URLGambar { get; set; } = string.Empty;
+        [Required]
+        public int Stok { get; set; } = 0;
+        [Required]
+        public int Harga { get; set; } = 0;
 
         public ICollection<Transaksi> Transaksis { get; set; }
     }

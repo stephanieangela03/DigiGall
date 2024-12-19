@@ -6,19 +6,21 @@ namespace DigiGall.Models
     public class Transaksi
     {
         [Key]
-        public int Id { get; set; }
+        [Required]
+        public Guid TransaksiId { get; set; } = Guid.NewGuid();
 
-        public int JumlahPembelian { get; set; }
-        public decimal TotalHarga { get; set; }
-        public string AlamatPengiriman { get; set; }
-        public DateTime TanggalTransaksi { get; set; }
+        [Required]
+        public int JumlahPembelian { get; set; } = 0;
+        public decimal? TotalHarga { get; set; } = 0;
+        [Required]
+        public DateTime TanggalTransaksi { get; set; } = System.DateTime.Now;
 
         [ForeignKey("User")]
-        public string Email { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
 
         [ForeignKey("Item")]
-        public int NamaItem { get; set; }
+        public Guid ItemId { get; set; }
         public Item Item { get; set; }
     }
 

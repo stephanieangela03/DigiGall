@@ -1,23 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigiGall.Models
 {
     public class PemberianQuest
     {
-        [Key]
-        public int Id { get; set; }
+        [Key] 
+        [Required] 
+        public Guid PemberianQuestId { get; set; } = Guid.NewGuid();
 
-        public DateTime TanggalSelesai { get; set; }
-        public string Status { get; set; }
 
-        [ForeignKey("User")]
-        public string Email { get; set; }
-        public User User { get; set; }
+        [Required] public DateTime? TanggalMulai { get; set; } = System.DateTime.Now;
+        [Required] public DateTime? TanggalSelesai { get; set; } = System.DateTime.Now;
+        public string Status { get; set; } = string.Empty;
 
-        [ForeignKey("Quest")]
-        public string NamaQuest { get; set; }
-        public Quest Quest { get; set; }
+        [ForeignKey("User")] public Guid UserId { get; set; }
+        [ForeignKey("Quest")] public Guid QuestId { get; set; }
+
     }
-
 }

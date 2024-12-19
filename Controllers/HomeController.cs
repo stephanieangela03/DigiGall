@@ -3,6 +3,7 @@ using DigiGall.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 
 namespace DigiGall.Controllers
 {
@@ -19,33 +20,31 @@ namespace DigiGall.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Pastikan context tidak null
             if (_context == null)
             {
                 _logger.LogError("DbContext tidak diinisialisasi dengan benar.");
-                return View("Error");  // Menampilkan halaman error jika DbContext null
+                return View("Error");
             }
 
-            // Cek apakah tabel PemberianQuests kosong
-            var pemberianQuests = await _context.PemberianQuests
-                .Include(pq => pq.Quest) // Join ke tabel Quest
-                .Include(pq => pq.User) // Join ke tabel User
-                .Select(pq => new PemberianQuestViewModel
-                {
-                    NamaPembuat = pq.User.NamaLengkap, // Nama dari pembuat quest
-                    NamaQuest = pq.Quest.NamaQuest, // Nama dari quest
-                    Reward = pq.Quest.Reward.ToString(), // Reward dari quest
-                    Deskripsi = pq.Quest.Deskripsi, // Deskripsi quest
-                    Deadline = pq.Quest.Deadline // Deadline quest
-                })
-                .ToListAsync();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
+            if (user == null) return NotFound();
 
-            if (pemberianQuests == null || !pemberianQuests.Any())
+            var quests = await _context.Quests.ToListAsync();
+
+            var questStatusList = new List<QuestStatusViewModel>();
+
+            foreach (var quest in quests)
             {
-                _logger.LogWarning("Tabel PemberianQuests tidak memiliki data.");
+                var isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
+
+                questStatusList.Add(new QuestStatusViewModel
+                {
+                    Quest = quest,
+                    IsTaken = isTaken
+                });
             }
 
-            return View(pemberianQuests);  // Mengirimkan data ViewModel ke tampilan
+            return View(questStatusList);
         }
 
 

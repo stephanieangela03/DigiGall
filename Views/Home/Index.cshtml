@@ -1,4 +1,4 @@
-﻿@model List<DigiGall.Models.PemberianQuestViewModel> //<!-- Perbaikan model dari Quest ke PemberianQuestViewModel -->
+﻿@model List<QuestStatusViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -10,20 +10,37 @@
 
 <h2>Quest Available</h2>
 <div class="quest-container">
-    @foreach (var quest in Model)  // Loop untuk menampilkan setiap quest
+    @foreach (var questStatus in Model) 
     {
+        var quest = questStatus.Quest;
         <div class="quest-card">
-            <h3>@quest.NamaQuest</h3>  <!-- Menampilkan NamaQuest -->
+            <h3>@quest.NamaQuest</h3>  
             <div class="quest-points">
-                <i class="fa-solid fa-coins"></i> @quest.Reward <!-- Menampilkan Reward -->
+                <i class="fa-solid fa-coins"></i> @quest.Reward 
             </div>
             <div class="quest-giver">
-                <i class="fa-solid fa-user"></i> @quest.NamaPembuat <!-- Menampilkan NamaPembuat -->
+                <i class="fa-solid fa-user"></i> @quest.Creator 
             </div>
             <p> @quest.Deskripsi</p>
             <div class="quest-info">
-                <span class="quest-deadline">Deadline: @quest.Deadline.ToString("dd/MM/yyyy")</span> <!-- Menampilkan Deadline -->
+                <span class="quest-deadline">Deadline: @quest.Deadline.ToString("dd/MM/yyyy")</span> 
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (questStatus.IsTaken)
+                {
+                    <button disabled>Taken</button> 
+                }
+                else
+                {
+                    <form asp-controller="Quest" asp-action="TakeQuest" method="post">
+                        <input type="hidden" name="id" value="@quest.QuestId" />
+                        <button type="submit">Take Quest</button>
+                    </form>
+                }
+            }
+            
+
         </div>
     }
 </div>
