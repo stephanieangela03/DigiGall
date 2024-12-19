@@ -31,11 +31,6 @@ namespace DigiGall.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
             if (user == null) return NotFound();
 
-            // Periksa peran user setelah variabel user dideklarasikan
-            if (user.Role == "Admin")
-            {
-                return RedirectToAction("Index", "Quest");
-            }
 
             var quests = await _context.Quests.ToListAsync();
 
