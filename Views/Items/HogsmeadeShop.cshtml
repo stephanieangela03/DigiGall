@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<DigiGall.Models.Item>
+
+@{
     ViewData["Title"] = "HogsmeadeShop";
 }
 
@@ -6,40 +8,26 @@
     <input type="text" placeholder="Search Transaction" class="search-box">
 </div>
 
-<div class="card-container">
-    <div class="card">
-        <img src="~/images/sapu.png" alt="Broomstick" class="card-img">
-        <div class="card-content">
-            <h2 class="card-title">Broom Stick Alpha Edition</h2>
-            <div class="card-price">
-                <i class="fa-solid fa-coins"></i> 1000
+<div class="quest-container">
+    @if (Model != null && Model.Any())  // Check if Model is not null and has items
+    {
+        @foreach (var item in Model)  // Loop untuk menampilkan setiap quest
+        {
+            <div class="card">
+                <img src="@item.URLGambar" alt="@item.NamaItem" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">@item.NamaItem</h2>
+                    <div class="card-price">
+                        <i class="fa-solid fa-coins"></i> @item.Harga
+                    </div>
+                    <p class="card-desc">@item.Deskripsi</p>
+                </div>
+                <div class="card-stock">Stock: @item.Stok</div>
             </div>
-            <p class="card-desc">Latest broomstick from the East with lightning speed and great handle.</p>
-        </div>
-        <div class="card-stock">Stock: 150</div>
-    </div>
-
-    <div class="card">
-        <img src="~/images/buku.png" alt="Book of Strength" class="card-img">
-        <div class="card-content">
-            <h2 class="card-title">Book of Strength</h2>
-            <div class="card-price">
-                <i class="fa-solid fa-coins"></i> 1500
-            </div>
-            <p class="card-desc">Contains secret from the strongest wizard Harry Hogfart on how to become stronger.</p>
-        </div>
-        <div class="card-stock">Stock: 100</div>
-    </div>
-
-    <div class="card">
-        <img src="~/images/jubah.png" alt="Cloak of Invisibility" class="card-img">
-        <div class="card-content">
-            <h2 class="card-title">Cloak of Invisibility</h2>
-            <div class="card-price">
-                <i class="fa-solid fa-coins"></i> 10000
-            </div>
-            <p class="card-desc">Majestic cloak that makes the user seem invisible to the naked eye.</p>
-        </div>
-        <div class="card-stock">Stock: 2</div>
-    </div>
+        }
+    }
+    else
+    {
+        <p>No items available.</p>  // Message for when the model is empty or null
+    }
 </div>
