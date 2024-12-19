@@ -17,11 +17,10 @@ namespace DigiGall.Models
 
         [ForeignKey("User")]
         public Guid UserId { get; set; }
-        public User User { get; set; }
 
         [ForeignKey("Item")]
         public Guid ItemId { get; set; }
-        public Item Item { get; set; }
+
     }
 
 }

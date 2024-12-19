@@ -23,6 +23,13 @@
                     <p class="card-desc">@item.Deskripsi</p>
                 </div>
                 <div class="card-stock">Stock: @item.Stok</div>
+                
+
+                <form asp-controller="Items" asp-action="Purchase" method="post">
+                    <input type="hidden" name="itemId" value="@item.ItemId" />
+                    <input type="number" class="form-control mr-2" name="amount" placeholder="0" />
+                    <button type="submit">Purchase</button>
+                </form>
             </div>
         }
     }
