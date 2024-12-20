@@ -21,6 +21,12 @@ namespace DigiGall.Controllers
 
         public async Task<IActionResult> Index()
         {
+            // Cek apakah pengguna terautentifikasi
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (_context == null)
             {
                 _logger.LogError("DbContext tidak diinisialisasi dengan benar.");
@@ -29,7 +35,6 @@ namespace DigiGall.Controllers
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
 
-            
             var quests = await _context.Quests.ToListAsync();
             var questStatusList = new List<QuestStatusViewModel>();
 
@@ -40,7 +45,6 @@ namespace DigiGall.Controllers
                 {
                     isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
                 }
-                
 
                 questStatusList.Add(new QuestStatusViewModel
                 {
@@ -51,7 +55,6 @@ namespace DigiGall.Controllers
 
             return View(questStatusList);
         }
-
 
         public async Task<IActionResult> Quest(Guid id)
         {
