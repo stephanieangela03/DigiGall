@@ -9,23 +9,23 @@
 <form asp-action="Create">
     <div class="form-group">
         <label asp-for="NamaQuest"></label>
-        <input asp-for="NamaQuest" class="form-control" />
+        <input asp-for="NamaQuest" class="form-control"  required/>
     </div>
     <div class="form-group">
         <label asp-for="Kriteria"></label>
-        <input asp-for="Kriteria" class="form-control" />
+        <input asp-for="Kriteria" class="form-control" required />
     </div>
     <div class="form-group">
         <label asp-for="Deskripsi"></label>
-        <input asp-for="Deskripsi" class="form-control" />
+        <input asp-for="Deskripsi" class="form-control" required />
     </div>
     <div class="form-group">
         <label asp-for="Reward"></label>
-        <input asp-for="Reward" class="form-control" />
+        <input asp-for="Reward" class="form-control"required />
     </div>
     <div class="form-group">
         <label asp-for="Deadline"></label>
-        <input asp-for="Deadline" class="form-control" type="date" />
+        <input asp-for="Deadline" class="form-control" type="date" required />
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
