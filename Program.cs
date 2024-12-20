@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login"; // Redirect to login page if not authenticated
-        options.AccessDeniedPath = "/Account/Login"; // Redirect to access denied page if unauthorized
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect to access denied page if unauthorized
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
     });
 
@@ -38,7 +38,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseMigrationsEndPoint();
+    app.UseMigrationsEndPoint(); // Optional: only use this in development for migrations
 }
 else
 {
@@ -61,7 +61,7 @@ app.UseSession();
 // Configure the default route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
+    pattern: "{controller=Account}/{action=Login}/{id?}"
 );
 
 app.Run();
