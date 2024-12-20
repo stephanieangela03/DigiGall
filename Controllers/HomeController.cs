@@ -27,18 +27,20 @@ namespace DigiGall.Controllers
                 return View("Error");
             }
 
-            // Pindahkan deklarasi user ke atas
             var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
-            if (user == null) return NotFound();
 
-
+            
             var quests = await _context.Quests.ToListAsync();
-
             var questStatusList = new List<QuestStatusViewModel>();
 
             foreach (var quest in quests)
             {
-                var isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
+                var isTaken = false;
+                if (user != null)
+                {
+                    isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
+                }
+                
 
                 questStatusList.Add(new QuestStatusViewModel
                 {

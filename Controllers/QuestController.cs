@@ -165,9 +165,11 @@ public class QuestController : Controller
         var quest = await _context.Quests.FindAsync(id);
 
         var user = await _context.Users.FirstOrDefaultAsync(u => u.NamaLengkap == HttpContext.User.Identity.Name);
-        if (user == null) return NotFound();
+        
 
-        var isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
+
+        var isTaken = false;
+        if (user != null) isTaken = await _context.PemberianQuests.AnyAsync(pq => pq.QuestId == quest.QuestId && pq.UserId == user.UserId);
 
 
         var QuestStatus =  new QuestStatusViewModel()

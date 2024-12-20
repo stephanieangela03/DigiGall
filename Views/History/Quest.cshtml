@@ -4,27 +4,24 @@
     ViewData["Title"] = "User Quests";
 }
 
-<h2>User Quests</h2>
+<h2 class="text-center mb-4">User Quests</h2>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Quest Name</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="container mt-4">
     @foreach (var pemberianQuest in Model.PemberianQuests)
     {
         var quest = Model.Quests.FirstOrDefault(q => q.QuestId == pemberianQuest.QuestId);
-        <tr>
-            <td>@quest?.NamaQuest</td>
-            <td>@pemberianQuest.TanggalMulai?.ToString("yyyy-MM-dd")</td>
-            <td>@pemberianQuest.TanggalSelesai?.ToString("yyyy-MM-dd")</td>
-            <td>@pemberianQuest.Status</td>
-        </tr>
+        <div class="card shadow-sm mb-3" style="background-color: #F3F3F3;">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title fw-bold">@quest?.NamaQuest</h5>
+                    <p class="mb-1"><i class="bi bi-calendar-check"></i> Start Date: @pemberianQuest.TanggalMulai?.ToString("yyyy-MM-dd")</p>
+                    <p class="mb-1"><i class="bi bi-calendar-x"></i> End Date: @pemberianQuest.TanggalSelesai?.ToString("yyyy-MM-dd")</p>
+                    <p class="text-primary">@pemberianQuest.Status</p>
+                </div>
+                <div class="text-end">
+                    <a href="/details/@pemberianQuest.QuestId" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
     }
-    </tbody>
-</table>
+</div>

@@ -5,44 +5,37 @@
     ViewData["Title"] = "Quest List";
 }
 
-<h2>Quest List</h2>
-<p>
+<h2 class="text-center mb-4">Quest List</h2>
+
+<div class="container mt-4">
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Create">Create New</a>
+        <div class="mb-3 text-end">
+            <a asp-action="Create" class="btn btn-success">Create New</a>
+        </div>
     }
-    
-</p>
-<p>
+
     <p>
-        Username : @User.Identity.Name
+        <span class="fw-bold">Username:</span> @User.Identity.Name
     </p>
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Criteria</th>
-        <th>Description</th>
-        <th>Reward</th>
-        <th>Deadline</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.NamaQuest)</td>
-            <td>@Html.DisplayFor(modelItem => item.Kriteria)</td>
-            <td>@Html.DisplayFor(modelItem => item.Deskripsi)</td>
-            <td>@Html.DisplayFor(modelItem => item.Reward)</td>
-            <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.QuestId">Edit</a>
-                    <a asp-action="Detail" asp-route-id="@item.QuestId">Detail</a>
-                    <a asp-action="Delete" asp-route-id="@item.QuestId">Delete</a>
-            </td>
-        </tr>
+
+    @foreach (var item in Model)
+    {
+        <div class="card shadow-sm mb-3" style="background-color: #F3F3F3;">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title fw-bold">@item.NamaQuest</h5>
+                    <p class="mb-1"><i class="bi bi-list-task"></i> Criteria: @item.Kriteria</p>
+                    <p class="mb-1"><i class="bi bi-info-circle"></i> Description: @item.Deskripsi</p>
+                    <p class="mb-1 text-success"><i class="bi bi-gem"></i> Reward: @item.Reward</p>
+                    <p class="mb-1 text-danger"><i class="bi bi-calendar-event"></i> Deadline: @item.Deadline</p>
+                </div>
+                <div class="text-end">
+                    <a asp-action="Edit" asp-route-id="@item.QuestId" class="btn btn-warning me-2">Edit</a>
+                    <a asp-action="Detail" asp-route-id="@item.QuestId" class="btn btn-primary me-2">Detail</a>
+                    <a asp-action="Delete" asp-route-id="@item.QuestId" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
     }
-    </tbody>
-</table>
+</div>

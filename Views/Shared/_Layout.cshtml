@@ -30,7 +30,12 @@
             <span class="me-3">
                 <i class="fa fa-coins"></i> @Context.Session.GetString("UserSaldo")
             </span>
-            <span class="me-3">, Halo @Context.Session.GetString("UserName") </span>
+            @if(Context.Session.GetString("UserName") == null){
+                <span class="me-3">Welcome Guest </span>
+            }else{
+
+            <span class="me-3">Welcome @Context.Session.GetString("UserName") </span>
+            }
             <div class="user-icon">
                 <span>X</span>
             </div>
@@ -42,11 +47,29 @@
 
     <!-- Left Vertical Navigation Bar -->
     <nav class="vertical-navbar">
-        <a  asp-controller="Home" asp-action="Index">Home</a>
-        <a asp-action="HogsmeadeShop"  asp-controller="Items">Hogsmeade Shop</a>
+        <a asp-controller="Home" asp-action="Index">Home</a>
+        <a asp-action="HogsmeadeShop" asp-controller="Items">Hogsmeade Shop</a>
         <a asp-area="" asp-controller="History" asp-action="Index">History</a>
-        <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+
+        @if (Context.Session.GetString("UserRole") == "Admin")
+        {
+            <!-- Menu tambahan khusus admin -->
+            <a asp-controller="Quest" asp-action="Index">Add Quest</a>
+            <a asp-controller="Account" asp-action="Manage">Add DigiGall</a>
+
+        }
+
+        @if (Context.Session.GetString("UserName") == null)
+        {
+            <!-- Tampilkan Login dan Register jika user belum login -->
+            <a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+        }
+        else
+        {
+            <!-- Tampilkan Logout jika user sudah login -->
+            <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+        }
     </nav>
 
     <!-- Main Content -->

@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login"; // Redirect to login page if not authenticated
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect to access denied page if unauthorized
+        options.AccessDeniedPath = "/Account/Login"; // Redirect to access denied page if unauthorized
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
     });
 
