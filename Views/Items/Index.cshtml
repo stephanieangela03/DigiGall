@@ -4,55 +4,84 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Items List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NamaItem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Deskripsi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.URLGambar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stok)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Harga)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NamaItem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deskripsi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.URLGambar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stok)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Harga)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-horizontal">
+                <img src="@item.URLGambar" alt="@item.NamaItem" class="card-img-left">
+                <div class="card-body">
+                    <h5 class="card-title">@item.NamaItem</h5>
+                    <p class="card-text">@item.Deskripsi</p>
+                    <p class="card-text"><strong>Harga:</strong> @item.Harga</p>
+                    <p class="text-muted">Stock: @item.Stok</p>
+                </div>
+                <div class="action-buttons">
+                    <a asp-action="Edit" asp-route-id="@item.ItemId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.ItemId" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.2s;
+        background-color: #F3F3F3;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+    .card-horizontal {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .card-img-left {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-right: 1px solid #ddd;
+    }
+
+    .card-body {
+        flex-grow: 1;
+        padding: 20px;
+    }
+
+    .card-title {
+        margin-bottom: 10px;
+        font-size: 1.25rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-right: 20px;
+    }
+</style>

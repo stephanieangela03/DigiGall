@@ -4,47 +4,49 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="text-center mb-4">Create New Item</h1>
 
-<h4>Item</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card mx-auto" style="max-width: 600px;">
+    <div class="card-body">
+        <h4 class="card-title text-center">Item Details</h4>
+        <hr />
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NamaItem" class="control-label"></label>
-                <input asp-for="NamaItem" class="form-control" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="NamaItem" class="form-label fw-bold"></label>
+                <input asp-for="NamaItem" class="form-control" placeholder="Enter item name" />
                 <span asp-validation-for="NamaItem" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Deskripsi" class="control-label"></label>
-                <input asp-for="Deskripsi" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Deskripsi" class="form-label fw-bold"></label>
+                <textarea asp-for="Deskripsi" class="form-control" rows="3" placeholder="Enter item description"></textarea>
                 <span asp-validation-for="Deskripsi" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="URLGambar" class="control-label"></label>
-                <input asp-for="URLGambar" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="URLGambar" class="form-label fw-bold"></label>
+                <input asp-for="URLGambar" class="form-control" placeholder="Enter image URL" />
                 <span asp-validation-for="URLGambar" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Stok" class="control-label"></label>
-                <input asp-for="Stok" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Stok" class="form-label fw-bold"></label>
+                <input asp-for="Stok" class="form-control" placeholder="Enter stock quantity" />
                 <span asp-validation-for="Stok" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Harga" class="control-label"></label>
-                <input asp-for="Harga" class="form-control" />
+
+            <div class="mb-3">
+                <label asp-for="Harga" class="form-label fw-bold"></label>
+                <input asp-for="Harga" class="form-control" placeholder="Enter price" />
                 <span asp-validation-for="Harga" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
